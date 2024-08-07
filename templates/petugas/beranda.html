@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <!-- mapbox -->
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+        type="text/css">
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+        .status-bar {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-evenly;
+            /* Updated to spread items evenly */
+        }
+
+        .status-bar a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #1A535C;
+            text-decoration: none;
+            font-weight: normal;
+            /* Ensure normal font weight by default */
+        }
+
+        .status-bar a.active {
+            border-bottom: 2px solid #1A535C;
+            font-weight: bold;
+            /* Only the active link is bold */
+        }
+
+        .order-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .order-content {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .order-details,
+        .order-dates {
+            margin-right: 20px;
+        }
+
+        .order-details h5 {
+            display: block;
+            /* Ensure the username is on its own row */
+            width: auto;
+            /* Allow the username to be longer than the container */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+            overflow: hidden;
+            /* Hide overflow text */
+            text-overflow: ellipsis;
+            /* Add ellipsis for overflow text */
+        }
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .order-status-button {
+            max-width: 150px;
+            /* Adjust this value as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .order-detail-link {
+            color: #1A535C;
+            font-size: 24px;
+        }
+
+        .order-status {
+            color: #75DBCD;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            font-size: 14px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            border-radius: 10px;
+            border: none;
+            width: 100px;
+            min-width: 150px;
+            /* Adjusted width */
+        }
+
+        .order-card h5 {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .order-card p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .order-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                width: 100%;
+                justify-content: center;
+                /* Center the actions horizontally */
+                margin-top: 10px;
+            }
+
+            .order-status-button {
+                margin-right: 0;
+                /* Remove margin between status/button and arrow */
+                align-items: center;
+                /* Center align the status and button */
+                width: 500px;
+                /* Set width to 500px */
+                justify-content: center;
+                /* Center the button horizontally */
+                max-width: 100%;
+            }
+
+            .order-detail-link {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                /* Center vertically */
+                transform: translateY(-50%);
+                /* Adjust to exactly center */
+            }
+
+            .instruction-text {
+                width: 100%;
+                /* Ensures it fits the card width */
+                box-sizing: border-box;
+                /* Includes padding and border in the element's total width */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-group .col-md-4 {
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        }
+
+        /* Style for all browsers */
+        .status-bar::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        .status-bar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            /* color of the tracking area */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb {
+            background-color: #888;
+            /* color of the scroll thumb */
+            border-radius: 10px;
+            /* roundness of the scroll thumb */
+            border: 2px solid #f1f1f1;
+            /* creates padding around scroll thumb */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            /* color of the scroll thumb when hovered */
+        }
+
+        /* For browsers that support it */
+        .status-bar {
+            scrollbar-width: thin;
+            /* "auto" or "thin" */
+            scrollbar-color: #888 #f1f1f1;
+            /* thumb and track color */
+        }
+
+        /* Additional custom styles */
+        .modal-content {
+            border-radius: 20px;
+            /* Rounded corners for the modal */
+        }
+
+        .modal-title {
+            font-weight: bold;
+            /* Ensures the text is bold */
+        }
+
+        .form-control {
+            border-radius: 10px;
+            font-size: 14px;
+            /* Rounded corners for input boxes */
+        }
+
+        .no-wrap-button {
+            display: block;
+            /* Makes the button a block element */
+            margin: 0 auto;
+            /* Centers the button horizontally */
+            white-space: nowrap;
+            /* Prevents the text inside the button from wrapping */
+            width: auto;
+            /* Adjusts the width to fit the content */
+            padding: 5px 20px;
+            /* Adds padding on the left and right for more space */
+        }
+
+        .center-button {
+            display: block;
+            /* Makes the button a block element */
+            margin: 0 auto;
+            /* Centers the button horizontally */
+        }
+
+        .instruction-text {
+            font-size: 14px;
+            color: #1A535C;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+
+        .jemput-button {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .modal-body {
+            font-size: 14px;
+            /* Sets the font size for all text within modal-body */
+        }
+
+        .input-group-text {
+            font-size: 14px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            /* Makes the text of all labels in form-group bold */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: white;">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logotekspetugas.png" alt="LaundryLab Logo">
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="sticky-top" style="background-color: white; position: sticky;  z-index: 300;">
+            <h2 class="text-center">Daftar Pesanan</h2>
+            <div class="status-bar"
+                style="background-color: white; position: sticky; top:300px; transform: translateY(0);">
+                <a href="#" class="status-link active" data-status="all">Semua</a>
+                <a href="#" class="status-link" data-status="Menunggu Dijemput">Menunggu dijemput</a>
+                <a href="#" class="status-link" data-status="Sedang Dijemput">Sedang dijemput</a>
+                <a href="#" class="status-link" data-status="Diproses">Diproses</a>
+                <a href="#" class="status-link" data-status="Perlu diantar">Perlu diantar</a>
+                <a href="#" class="status-link" data-status="Sedang Diantar">Sedang diantar</a>
+                <a href="#" class="status-link" data-status="Selesai">Selesai</a>
+            </div>
+        </div>
+
+
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[1].status == "menunggu_dijemput" and pesanan.statusPesanan[1].active == "true" %}
+        <div class="order-card" data-status="Menunggu Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailUser" style="display: none;">{{pesanan.emailUser}}</div>
+                    <!-- <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div> -->
+                    <div id="hiddenIdPesanan" style="display: none;">{{pesanan.idPesanan}}</div>
+                    <div id="alamatUser" data-alamat="{{ pesanan.alamatUser }}" style="display: none;"></div>
+
+
+                    <h5>{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Dikonfirmasi </p>
+                    <p>{{ pesanan.statusPesanan[1].tanggal }} | {{ pesanan.statusPesanan[1].waktu }}
+                    </p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[1].status }} </p> -->
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Menunggu Dijemput</span>
+                    <button class="btn" data-toggle="modal" data-target="#addressModal"
+                        onclick="openJemputMap(this)">Jemput</button>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+
+
+        <!-- Modal for Jemput -->
+        <div class="modal fade" id="addressModal" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalLabel">Alamat Penjemputan dan Peta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- <p>Alamat: {{ pesanan.alamatUser}}</p> -->
+                        <p id="alamatUser" data-alamat="{{ pesanan.alamatUser }}">Alamat: {{ pesanan.alamatUser }}</p>
+
+
+                        <div id="mapView" style="height: 300px;"></div> <!-- Container for the map -->
+
+                        <p>klik tombol jemput hanya jika anda sudah siap untuk menuju lokasi</p>
+                        <button type="button" class="btn btn-primary jemput-button"
+                            onclick="updateStatusJemput(this)">Jemput</button>
+                        <!-- Additional button for "Jemput" -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[2].status == "sedang_dijemput" and pesanan.statusPesanan[2].active == "true" %}
+        <div class="order-card" data-status="Sedang Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailUser" style="display: none;">{{pesanan.emailUser}}</div>
+                    <!-- <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div> -->
+                    <div id="hiddenIdPesanan" style="display: none;">{{pesanan.idPesanan}}</div>
+
+                    <h5>{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Penjemputan </p>
+                    <p>{{ pesanan.statusPesanan[2].tanggal }} | {{ pesanan.statusPesanan[2].waktu }}
+                    </p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[2].status }} </p> -->
+                    <a data-toggle="modal" data-target="#addressModal"> Lihat Peta</a>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Dijemput</span>
+                    <button class="btn" data-toggle="modal" data-target="#arrivalModal"
+                        onclick="openArrivalModal(this)">Tiba di lokasi</button>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Modal for Arrival -->
+        <div class="modal fade" id="arrivalModal" tabindex="-1" aria-labelledby="arrivalModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="arrivalModalLabel">Konfirmasi Pesanan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="arrivalForm">
+                            <div id="categoryFields">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="category1">Kategori</label>
+                                        <select class="form-control category-select" id="category1"
+                                            onchange="updateTotalHarga()">
+                                            <option value="" disabled selected>Pilih Kategori</option>
+                                            {% for category in kategori %}
+                                            <option value="{{ category.idKategori }}" data-harga="{{ category.harga }}"
+                                                data-categorytype="{{ category.categoryType }}">
+                                                {{ category.categoryName }}
+                                            </option>
+                                            <div id="hiddenHargaKategori" style="display: none;">{{category.harga}}
+                                            </div>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="weight1">Berat</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control weight-input" id="weight1"
+                                                onchange="updateTotalHarga()">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">kg</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="totalPieces1">Total Potongan</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control pieces-input" id="totalPieces1">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">pc</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-link no-wrap-button"
+                                    onclick="addCategoryField()">Tambah Kategori</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="catatan">Catatan</label>
+                                <input type="text" class="form-control" id="catatan"
+                                    placeholder="Masukkan catatan untuk pesanan">
+                            </div>
+                            <div class="form-group">
+                                <label for="totalHarga">Total Harga</label>
+                                <p id="totalHarga">Input pesanan untuk melihat total harga</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paymentMethod">Metode Pembayaran</label>
+                                <select class="form-control" id="paymentMethod" onchange="showPaymentFields()">
+                                    <option value="" disabled selected>Pilih Metode Pembayaran</option>
+                                    {% for pembayaran in pembayaran %}
+                                    <option value="{{ pembayaran.paymentMethod }}"
+                                        data-idpembayaran="{{ pembayaran.idPembayaran }}">{{
+                                        pembayaran.paymentMethod.capitalize() }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- payment instruction based on selected dropdown  -->
+                            <div id="bankFields" style="display: none;">
+                                <div class="form-group">
+                                    <label for="paymentInstructions">Instruksi Pembayaran</label>
+                                    <p>Nama Bank: <span id="namaBank">Nama Bank Placeholder</span></p>
+                                    <p>Nomor Rekening Bank: <span id="norekBank">Nomor Rekening Placeholder</span></p>
+                                    <p>Catatan: <span id="catatanBank">Catatan Placeholder</span></p>
+                                </div>
+                            </div>
+                            <div id="qrisFields" style="display: none;">
+                                <div class="form-group">
+                                    <label for="paymentInstructions">Instruksi Pembayaran</label>
+                                    <p>Barcode QRIS: <span id="qrisImg">QRIS Image Placeholder</span></p>
+                                    <p>Catatan: <span id="catatanQris">Catatan Placeholder</span></p>
+
+                                </div>
+                            </div>
+                            <div id="tunaiField" style="display: none;">
+                                <div class="form-group">
+                                    <label for="paymentInstructions">Instruksi Pembayaran</label>
+                                    <p>Catatan: <span id="catatanTunai">Catatan Placeholder</span></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="buktiPembayaran">Upload Bukti Pembayaran</label>
+                                <input type="file" class="form-control" id="buktiPembayaran">
+                            </div>
+                            <button type="button" class="btn btn-primary center-button"
+                                onclick="updateStatusSedangJemput()">Proses</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[3].status == "diproses" and pesanan.statusPesanan[3].active == "true" %}
+        <div class="order-card" data-status="Diproses">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenIdPesanan" style="display: none;">{{pesanan.idPesanan}}</div>
+                    <h5>#{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Diproses </p>
+                    <p>{{ pesanan.statusPesanan[3].tanggal }} | {{ pesanan.statusPesanan[3].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    {% for item in pesanan.pesanan %}
+                    <p>{{ item.berat }}kg - {{ item.categoryType.replace('_', ' ').title() }} ({{ item.item }} pcs)</p>
+                    {% endfor %}
+                    <p> Total: Rp{{pesanan.totalBayar}} </p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Diproses</span>
+                    <!-- <div class="instruction-text">Menunggu jadwal pengantaran dari admin</div> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[4].status == "perlu_diantar" and pesanan.statusPesanan[4].active == "true" %}
+        <div class="order-card" data-status="Perlu diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailUser" style="display: none;">{{pesanan.emailUser}}</div>
+                    <!-- <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div> -->
+                    <div id="hiddenIdPesanan" style="display: none;">{{pesanan.idPesanan}}</div>
+                    <div id="alamatUser" data-alamat="{{ pesanan.alamatUser }}" style="display: none;"></div>
+
+
+                    <h5>{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai Diproses </p>
+                    <p>{{ pesanan.statusPesanan[4].tanggal }} | {{ pesanan.statusPesanan[4].waktu
+                        }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Perlu diantar</span>
+                    <button class="btn" data-toggle="modal" data-target="#addressModalAntar"
+                        onclick="openAntarMap(this)">Antar</button>
+
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+
+        <!-- Modal for Antar -->
+        <div class="modal fade" id="addressModalAntar" tabindex="-1" role="dialog"
+            aria-labelledby="addressModalAntarLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalAntarLabel">Alamat Pengantaran dan Peta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- <p>Alamat: {{ pesanan.alamatUser}}</p> -->
+                        <p id="alamatUser" data-alamat="{{ pesanan.alamatUser }}">Alamat: {{ pesanan.alamatUser }}</p>
+
+
+                        <div id="mapViewAntar" style="height: 300px;"></div> <!-- Container for the map -->
+
+                        <!-- <p>klik tombol jemput hanya jika anda sudah siap untuk menuju lokasi</p> -->
+                        <button type="button" class="btn btn-primary jemput-button"
+                            onclick="updateStatusAntar(this)">Antar</button>
+                        <!-- Additional button for "Jemput" -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[5].status == "sedang_diantar" and pesanan.statusPesanan[5].active == "true" %}
+        <div class="order-card" data-status="Sedang Diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Antar</p>
+                    <p> {{ pesanan.statusPesanan[5].tanggal }} | {{ pesanan.statusPesanan[5].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[5].status }} </p> -->
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Diantar</span>
+                    <!-- <button class="btn">Selesai</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[6].status == "selesai" and pesanan.statusPesanan[6].active == "true" %}
+        <div class="order-card" data-status="Selesai">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{{ pesanan.idPesanan }}
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai </p>
+                    <p>{{ pesanan.statusPesanan[6].tanggal }} | {{ pesanan.statusPesanan[6].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[6].status }} </p> -->
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Selesai</span>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#addressModal">Selesai</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <!-- Logout -->
+    <div class="row mt-4 mb-3 text-center">
+        <div class="col">
+            <a href="/petugas/logout" class=" btn-outline-danger">Keluar</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 LaundryLab. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include Google Maps JavaScript API -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script> -->
+
+    <script>
+        let selectedCard = null;
+
+        // FORM PESANAN
+        let fieldCount = 1; // Initialize field count
+
+        function addCategoryField() {
+            fieldCount++; // Increment field count
+            const categoryFields = document.getElementById('categoryFields');
+            const newFieldHTML = `
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="category${fieldCount}">Kategori</label>
+                        <select class="form-control" id="category${fieldCount}" onchange="updateTotalHarga()">
+                            <option value="" disabled selected>Pilih Kategori</option>
+                            {% for category in kategori %}
+                            <option value="{{ category.idKategori }}" data-harga="{{ category.harga }}" data-categorytype="{{ category.categoryType }}">
+                                {{ category.categoryName }}
+                            </option>
+                            <div id="hiddenHargaKategori" style="display: none;">{{category.harga}}</div>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="weight${fieldCount}">Berat</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="weight${fieldCount}" onchange="updateTotalHarga()">
+                            <div class="input-group-append">
+                                <span class="input-group-text">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="totalPieces${fieldCount}">Total Potongan</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="totalPieces${fieldCount}">
+                            <div class="input-group-append">
+                                <span class="input-group-text">pc</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            categoryFields.insertAdjacentHTML('beforeend', newFieldHTML);
+
+            // Debugging: Log the categoryFields NodeList and their HTML after adding a new field
+            // const updatedCategoryFields = document.querySelectorAll('#categoryFields .form-group');
+            // console.log('Updated Category Fields NodeList:', updatedCategoryFields);
+            // updatedCategoryFields.forEach((field, index) => {
+            //     console.log(`Field ${index + 1} HTML:`, field.outerHTML);
+            // });
+        }
+
+
+        // MAP
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmVyZW5mYXNlbGxhcGNyIiwiYSI6ImNsZmdqY3A0cjBuMTMzeHBhbWR4bWU4bWcifQ.qiVGsGvSFknQtRriOutdGA';
+        let modalMarker;
+
+        let mapView;
+        function initializeMapView(longitude, latitude) {
+            mapView = new mapboxgl.Map({
+                container: 'mapView', // Container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+                center: [longitude, latitude], // Starting position [lng, lat]
+                zoom: 12 // Starting zoom level
+            });
+
+            // Add navigation controls to the map
+            mapView.addControl(new mapboxgl.NavigationControl());
+
+            // Add a marker to the map
+            modalMarker = new mapboxgl.Marker({
+                draggable: false
+            }).setLngLat([longitude, latitude]).addTo(mapView);
+        }
+
+        let mapViewAntar;
+        function initializeMapViewAntar(longitude, latitude) {
+            mapViewAntar = new mapboxgl.Map({
+                container: 'mapViewAntar', // Container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+                center: [longitude, latitude], // Starting position [lng, lat]
+                zoom: 12 // Starting zoom level
+            });
+
+            // Add navigation controls to the map
+            mapViewAntar.addControl(new mapboxgl.NavigationControl());
+
+            // Add a marker to the map
+            modalMarker = new mapboxgl.Marker({
+                draggable: false
+            }).setLngLat([longitude, latitude]).addTo(mapViewAntar);
+        }
+
+        function openJemputMap(button) {
+            selectedCard = button.closest('.order-card');
+            // console.log(selectedCard)
+
+            // Retrieve data from the card
+            const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;
+            const alamatUser = selectedCard.querySelector('#alamatUser').getAttribute('data-alamat');
+
+            // Make a fetch request to the API URL
+            fetch(` https://laundrylab.pocari.id/getAlamat/${hiddenEmailUser}`)
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.success) {
+                        const matchingUser = data.users.find(user => user.alamat === alamatUser);
+                        if (matchingUser) {
+                            const longitude = matchingUser.longitudeUser;
+                            const latitude = matchingUser.latitudeUser;
+                            // console.log(longitude, latitude);
+                            initializeMapView(longitude, latitude);
+                            // Use longitude and latitude values as needed
+                        } else {
+                            console.error('Error: Address not found for the user');
+                        }
+                    } else {
+                        console.error('Error: Admin not found');
+                    }
+                });
+            $('#addressModal').modal('show');
+        }
+
+        function openAntarMap(button) {
+            selectedCard = button.closest('.order-card');
+            console.log(selectedCard)
+
+            // Retrieve data from the card
+            const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;
+            const alamatUser = selectedCard.querySelector('#alamatUser').getAttribute('data-alamat');
+
+            // Make a fetch request to the API URL
+            fetch(` https://laundrylab.pocari.id/getAlamat/${hiddenEmailUser}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    if (data.success) {
+                        const matchingUser = data.users.find(user => user.alamat === alamatUser);
+                        // console.log(matchingUser)
+                        if (matchingUser) {
+                            const longitude = matchingUser.longitudeUser;
+                            const latitude = matchingUser.latitudeUser;
+                            console.log(longitude, latitude);
+                            initializeMapViewAntar(longitude, latitude);
+                        } else {
+                            console.error('Error: Address not found for the user');
+                        }
+                    } else {
+                        console.error('Error: Admin not found');
+                    }
+                });
+            $('#addressModalAntar').modal('show');
+        }
+
+
+
+
+        // UPDATE STATUS 
+        function updateStatusJemput(button) {
+            console.log('Button clicked:', button);
+            // console.log(selectedCard)
+
+            // Retrieve data from the card
+            // const hiddenIdPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            // console.log('ini hiddenIdPesanan', hiddenIdPesanan)
+
+
+            // const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;  
+            // console.log(hiddenEmailUser)
+
+            selectedCard = button.closest('.order-card');
+            if (!selectedCard) {
+                console.error('Error: selectedCard is null in updateStatusJemput');
+                return;
+            }
+
+            const hiddenIdPesanan = selectedCard.querySelector('#hiddenIdPesanan');
+            if (!hiddenIdPesanan) {
+                console.error('Error: hiddenIdPesanan is null');
+                return;
+            }
+
+            const idPesanan = hiddenIdPesanan.textContent;
+            console.log('hiddenIdPesanan:', idPesanan);
+
+
+
+
+
+
+
+
+            // const hiddenIdPesanan = document.getElementById('hiddenIdPesanan').textContent;
+            const emailPetugas = sessionStorage.getItem('petugas_email')
+
+
+            const formData = new FormData();
+            formData.append('currentDate', currentDate);
+            formData.append('currentTime', currentTime);
+
+            // console.log(emailPetugas)
+            // console.log(hiddenIdPesanan)
+            // console.log(currentDate, currentTime)
+
+            fetch(`https://laundrylab.pocari.id/editTungguDijemput/${hiddenIdPesanan}/${emailPetugas}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Status updated successfully');
+
+                        location.reload();
+                    } else {
+                        console.error('Error updating status:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+
+        function updateStatusAntar(button) {
+            selectedCard = button.closest('.order-card');
+
+            // Retrieve data from the card
+            const hiddenIdPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            // const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;
+
+            // const hiddenIdPesanan = document.getElementById('hiddenIdPesanan').textContent;
+            const emailPetugas = sessionStorage.getItem('petugas_email')
+            console.log(hiddenIdPesanan)
+            console.log(emailPetugas)
+
+            const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+            const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }); // Format: HH:MM:SS
+
+            const formData = new FormData();
+            formData.append('currentDate', currentDate);
+            formData.append('currentTime', currentTime);
+
+            // console.log(emailPetugas)
+            // console.log(hiddenIdPesanan)
+            // console.log(currentDate, currentTime)
+
+            fetch(`https://laundrylab.pocari.id/editTungguDiantar/${hiddenIdPesanan}/${emailPetugas}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Status updated successfully');
+
+                        location.reload();
+                    } else {
+                        console.error('Error updating status:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+
+
+        function showPaymentFields() {
+            var paymentMethod = document.getElementById('paymentMethod').value;
+            var bankFields = document.getElementById('bankFields');
+            var qrisFields = document.getElementById('qrisFields');
+            var tunaiField = document.getElementById('tunaiField');
+
+            // console.log(paymentMethod)
+            // console.log('satu')
+            // Hide all fields initially
+            // bankFields.style.display = 'none';
+            // qrisFields.style.display = 'none';
+            // tunaiField.style.display = 'none';
+
+            // Show relevant fields based on the selected payment method
+            if (paymentMethod === 'bank') {
+
+                bankFields.style.display = 'block';
+            } else if (paymentMethod === 'qris') {
+                qrisFields.style.display = 'block';
+            } else if (paymentMethod === 'tunai') {
+                tunaiField.style.display = 'block';
+            }
+        }
+
+        var totalHarga = 0;
+
+        function updateTotalHarga() {
+            var totalHargaElement = document.getElementById('totalHarga');
+            var categoryFields = document.querySelectorAll('#categoryFields .form-group');
+            // var totalHarga = 0;
+            totalHarga = 0;
+            var details = '';
+
+            categoryFields.forEach(function (field) {
+                var categorySelect = field.querySelector('select');
+                var weightInput = field.querySelector('input[id^="weight"]');
+                var selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+                var categoryName = selectedCategory.text;
+                var categoryHarga = parseFloat(selectedCategory.getAttribute('data-harga'));
+                var berat = parseFloat(weightInput.value);
+
+                if (categoryName !== "Pilih Kategori" && !isNaN(categoryHarga) && !isNaN(berat)) {
+                    var harga = categoryHarga * berat;
+                    totalHarga += harga;
+                    details += `${categoryName} \t- ${berat}kg \t- @Rp${categoryHarga} \t- Rp${harga}<br>`;
+                }
+
+                // // console.log(berat)
+                // console.log(categoryName)
+                // console.log(categoryHarga)
+                // console.log(berat)
+                // console.log(harga)
+            });
+
+            if (totalHarga > 0) {
+                details += `<strong>Total Harga: Rp${totalHarga}</strong>`;
+                totalHargaElement.innerHTML = details;
+            } else {
+                totalHargaElement.textContent = 'Input pesanan untuk melihat total harga';
+            }
+        }
+
+        // Call updateTotalHarga when the category or weight inputs change
+        // document.addEventListener('change', function (event) {
+        //     if (event.target.matches('select[id^="category"]') || event.target.matches('input[id^="weight"]')) {
+        //         updateTotalHarga();
+        //     }
+        // });
+
+
+
+
+
+
+        function openArrivalModal(button) {
+            // Get the card element
+            selectedCard = button.closest('.order-card');
+
+            // Retrieve data from the card
+            const hiddenIdPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;
+
+            // Update modal content with the retrieved data
+            // document.getElementById('arrivalModalLabel').textContent = `Konfirmasi Pesanan ${hiddenIdPesanan}`;
+            // Update other modal fields as needed
+
+            // Open the modal
+            $('#arrivalModal').modal('show');
+        }
+
+        function updateStatusSedangJemput() {
+            // Get the card element
+            if (!selectedCard) {
+                console.error('No card selected');
+                return;
+            }
+
+            // Retrieve data from the card
+            const hiddenIdPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            const hiddenEmailUser = selectedCard.querySelector('#hiddenEmailUser').textContent;
+            const emailPetugas = sessionStorage.getItem('petugas_email')
+
+            const catatan = document.getElementById('catatan').value;
+            const paymentMethodSelect = document.getElementById('paymentMethod');
+            const selectedPaymentOption = paymentMethodSelect.options[paymentMethodSelect.selectedIndex];
+            const idPembayaran = selectedPaymentOption.getAttribute('data-idpembayaran');
+            const buktiPembayaran = document.getElementById('buktiPembayaran').files[0];
+
+            const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+            const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }); // Format: HH:MM:SS
+
+            const pesanan = [];
+            const categoryFields = document.querySelectorAll('#categoryFields .form-group');
+
+            // Debugging: Log the categoryFields NodeList
+            // console.log('Category Fields:', categoryFields);
+            // categoryFields.forEach((field, index) => {
+            //     console.log(`Field ${index + 1} HTML:`, field.outerHTML);
+            // });
+
+            // BELUM ADA ALERT FORM KOSONG
+
+            categoryFields.forEach(function (field, index) {
+                const categorySelect = field.querySelector('select');
+                const weightInput = field.querySelector('input[id^="weight"]');
+                const piecesInput = field.querySelector('input[id^="totalPieces"]');
+
+                // Debugging: Check if elements are selected correctly
+                console.log(`Field ${index + 1}:`);
+
+                const selectedCategory = categorySelect.options[categorySelect.selectedIndex];
+                const categoryType = selectedCategory.getAttribute('data-categorytype');
+                const berat = parseFloat(weightInput.value);
+                const item = parseInt(piecesInput.value);
+
+                if (categoryType && !isNaN(berat) && !isNaN(item)) {
+                    pesanan.push({
+                        categoryType: categoryType,
+                        berat: berat,
+                        item: item
+                        // berat: berat.toString(), // Convert to string
+                        // item: item.toString() // Convert to string
+
+                    });
+                }
+
+                // Debugging: Check if values are retrieved correctly
+                console.log('Category Type:', categoryType);
+                console.log('Berat:', berat);
+                console.log('Item:', item);
+                console.log('pesanan', pesanan)
+            });
+
+            // Convert the pesanan array to JSON string
+            const pesananJson = JSON.stringify(pesanan);
+            console.log('Pesanan Array:', pesanan);
+            console.log('Pesanan JSON:', pesananJson);
+
+            const formData = new FormData();
+            formData.append('currentDate', currentDate);
+            formData.append('currentTime', currentTime);
+            formData.append('pesanan', pesananJson); // Send JSON string
+            formData.append('catatan', catatan);
+            formData.append('idPembayaran', idPembayaran);
+            formData.append('totalBayar', totalHarga);
+            if (buktiPembayaran) {
+                formData.append('buktiPembayaran', buktiPembayaran);
+            }
+
+            // Log the FormData contents
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            // fetch(`https://laundrylab.pocari.id/editSedangDijemput/${hiddenIdPesanan}/${emailPetugas}`, { //ini kalo yg ada upload path 
+            fetch(`https://laundrylab.pocari.id/addPesananState/${hiddenIdPesanan}/${emailPetugas}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    console.dir(data); // Log the data in a readable format
+
+                    if (data.success) {
+                        console.log('Status updated successfully');
+                        // location.reload();
+                    } else {
+                        console.error('Error updating status:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+
+        // nav tab status
+        document.querySelectorAll('.status-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const status = this.getAttribute('data-status');
+                document.querySelectorAll('.order-card').forEach(card => {
+                    if (status === 'all' || card.getAttribute('data-status') === status) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                document.querySelectorAll('.status-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set the admin_email first
+            sessionStorage.setItem('petugas_email', '{{ session.get("petugas_email", "") }}');
+
+            // update jumlah card setiap status
+            const statusCounts = {
+                'all': 0,
+                'Menunggu Dikonfirmasi': 0,
+                'Menunggu Dijemput': 0,
+                'Sedang Dijemput': 0,
+                'Diproses': 0,
+                'Perlu diantar': 0,
+                'Sedang Diantar': 0,
+                'Selesai': 0
+            };
+
+            document.querySelectorAll('.order-card').forEach(card => {
+                const status = card.getAttribute('data-status');
+                statusCounts[status]++;
+                statusCounts['all']++;
+            });
+
+            document.querySelectorAll('.status-link').forEach(link => {
+                const status = link.getAttribute('data-status');
+                link.textContent += ` (${statusCounts[status]})`;
+            });
+
+
+
+        });
+    </script>
+</body>
+
+</html>

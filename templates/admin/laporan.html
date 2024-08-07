@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            /* font-weight: 600; */
+            font-size: 16px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .btn {
+            /* width: 100%; */
+            padding: 10px 20px;
+            font-size: 15px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            height: calc(100vh - 180px);
+            /* Adjust based on navbar + footer height */
+            overflow: auto;
+            padding: 0 15px;
+            /* Example padding, adjust as necessary */
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                /* Smaller logo for smaller screens */
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+                /* Smaller font size for nav links */
+            }
+
+            h2 {
+                font-size: 20px;
+                /* Smaller headings */
+            }
+
+
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                /* Smaller logo for smaller screens */
+                margin: 5px;
+                /* Adjust margin to keep layout tight */
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                /* Reduce margin to save space */
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+                /* Reduce padding to save space */
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+                /* Optionally reduce font size for nav links */
+            }
+
+            .container {
+                height: calc(100vh - 140px);
+                /* Adjust based on navbar + footer height */
+
+            }
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                max-width: 100%;
+                /* Adjust this value as needed */
+                padding: 0px 30px;
+            }
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-center {
+            justify-content: center;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .big-font {
+            font-size: 24px;
+        }
+
+        #startDate,
+        #endDate {
+            border-radius: 0 10px 10px 0;
+            /* Adjust this value to your preference */
+            text-align: center;
+            /* Center the text */
+        }
+
+        .input-group .input-group-prepend {
+            border-radius: 10px 0 0 10px !important;
+            /* Custom border radius with increased specificity and !important */
+        }
+
+        .input-group-text {
+            border-radius: 10px 0 0 10px !important;
+        }
+
+        /* Custom styles for input placeholders */
+        #startDate::placeholder,
+        #endDate::placeholder {
+            font-size: 16px;
+            /* Adjust the font size as needed */
+            text-align: center;
+            /* Center the placeholder text */
+        }
+
+        .no-padding {
+            padding: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logotekstoko.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/laporan">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2 class="text-center">Laporan Keuangan</h2>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="text" id="startDate" class="form-control" placeholder="Start Date"
+                        aria-label="Start Date">
+                </div>
+            </div>
+            <div class="col-md-1 text-center align-self-center no-padding">
+                <span>-</span>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="text" id="endDate" class="form-control" placeholder="End Date" aria-label="End Date">
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <h4>Akumulasi Pendapatan</h4>
+            <p class="big-font"></p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 d-flex justify-content-center align-items-center">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" id="printPDF">Cetak PDF</button>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2023 LaundryLab</p>
+    </footer>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+<script>
+    var chart; // Initialize the chart variable
+    var ctx; // Declare ctx variable
+
+    async function fetchDataAndRenderChart() {
+        const adminEmail = sessionStorage.getItem('admin_email');
+
+        fetch(`https://laundrylab.pocari.id/getPesananByEmailLaundry/${adminEmail}`, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // console.log('Success:', data);
+                if (data.success) {
+                    allOrders = data.orders;
+                    updateChartData();
+                } else {
+                    console.error('Failed to fetch orders:', data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching orders:', error);
+            });
+    }
+
+    function updateChartData() {
+        startDate = document.getElementById('startDate').value;
+        endDate = document.getElementById('endDate').value;
+        // console.log('startDate:', startDate);
+        // console.log('endDate:', endDate);
+
+        if (!startDate || !endDate) {
+            return;
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        let filteredOrders = allOrders.filter(order => {
+            const orderDate = new Date(order.statusPesanan[6].tanggal);
+            return orderDate >= start && orderDate <= end;
+        });
+
+        // console.log('filteredOrders:', filteredOrders);
+
+        let totalRevenue = 0;
+        chartData = filteredOrders.map(order => {
+            const totalBayar = parseInt(order.totalBayar);
+            if (isNaN(totalBayar)) {
+                return 0;
+            }
+            totalRevenue += totalBayar;
+            return totalBayar;
+        });
+
+        document.querySelector('.big-font').textContent = `Rp${totalRevenue.toLocaleString('id-ID')}`;
+        updateChart();
+    }
+
+    function updateChart() {
+        if (chart) {
+            chart.destroy(); // Destroy the existing chart instance
+        }
+        chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: Array.from({ length: chartData.length }, (_, i) => i + 1),
+                datasets: [{
+                    label: "Pendapatan",
+                    data: chartData,
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: true, title: { display: true, text: "Hari" } },
+                    y: {
+                        display: true, title: { display: true, text: "Pendapatan" },
+                        ticks: {
+                            callback: function (value) {
+                                return 'Rp' + value.toLocaleString('id-ID');
+                            },
+                            min: 0, // Set the minimum value for the y-axis
+                            max: 25000, // Set the maximum value for the y-axis
+                            stepSize: 5000 // Set the step size for the y-axis
+                        }
+                    },
+                }
+            }
+        });
+    }
+
+    // date picker
+    var startDatePicker = new Pikaday({
+        field: document.getElementById('startDate'),
+        format: 'D MMM YYYY',
+        toString(date, format) {
+            return moment(date).format(format);
+        },
+        onSelect: function (date) {
+            startDate = moment(date).format('YYYY-MM-DD');
+            updateChartData();
+        }
+    });
+
+    var endDatePicker = new Pikaday({
+        field: document.getElementById('endDate'),
+        format: 'D MMM YYYY',
+        toString(date, format) {
+            return moment(date).format(format);
+        },
+        onSelect: function (date) {
+            endDate = moment(date).format('YYYY-MM-DD');
+            updateChartData();
+        }
+    });
+
+    // Add event listeners for native date input
+    document.getElementById('startDate').addEventListener('change', (event) => {
+        startDate = event.target.value;
+        updateChartData();
+    });
+
+    document.getElementById('endDate').addEventListener('change', (event) => {
+        endDate = event.target.value;
+        updateChartData();
+    });
+
+    // print pdf
+    document.getElementById('printPDF').addEventListener('click', function () {
+
+        // MASIH MAU TAMBAH LOGO NAMA LAUNDRY
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Retrieve Start Date and End Date
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        // Validation: Check if both dates are selected
+        if (!startDate || !endDate) {
+            alert('Pilih Tanggal Terlebih Dahulu');
+            return; // Stop execution if dates are not selected
+        }
+
+        // Add Start Date and End Date to the PDF
+        doc.text(`Start Date: ${startDate}`, 10, 10);
+        doc.text(`End Date: ${endDate}`, 10, 20);
+
+        // Add Total Accumulated Income
+        const income = document.querySelector('.big-font').textContent;
+        doc.text(`Total Accumulated Income: ${income}`, 10, 30);
+
+        // Add the Chart
+        const canvas = document.getElementById('myChart');
+        // Ensure the chart is drawn before capturing
+        canvas.toBlob(function (blob) {
+            const url = URL.createObjectURL(blob);
+
+            // Add image of chart to PDF
+            doc.addImage(url, 'JPEG', 10, 40, 180, 100, undefined, 'FAST');
+
+            // Construct filename based on selected dates
+            const filename = `Laporan_${startDate.replace(/[^a-zA-Z0-9]/g, '')}_to_${endDate.replace(/[^a-zA-Z0-9]/g, '')}.pdf`;
+
+            // Save the PDF with the dynamic filename
+            doc.save(filename);
+        });
+    });
+
+    // doc 
+    document.addEventListener('DOMContentLoaded', function () {
+        sessionStorage.setItem('admin_email', '{{ session.get("admin_email", "") }}');
+        sessionStorage.setItem('admin_id', '{{ session.get("admin_id", "") }}');
+        const adminEmail = sessionStorage.getItem('admin_email');
+
+        // Create the chart
+        ctx = document.getElementById("myChart").getContext("2d"); // Initialize ctx here
+        chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                // labels: [],
+                labels: [], // Example labels
+                datasets: [{
+                    label: "Pendapatan",
+                    data: [10000, 20000, 30000, 40000, 50000], // Default data
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: true, title: { display: true, text: "Hari" } },
+                    y: {
+                        display: true, title: { display: true, text: "Pendapatan" },
+                        ticks: {
+                            callback: function (value) {
+                                return 'Rp' + value.toLocaleString('id-ID');
+                            },
+                            min: 0, // Set the minimum value for the y-axis
+                            max: 250000, // Set the maximum value for the y-axis
+                            stepSize: 5000 // Set the step size for the y-axis
+                        }
+                    },
+                }
+            }
+        });
+
+        fetchDataAndRenderChart();
+    });
+</script>
+
+</html>

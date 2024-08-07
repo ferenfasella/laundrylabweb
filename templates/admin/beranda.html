@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #75DBCD;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            /* font-weight: 600; */
+            font-size: 16px;
+        }
+
+
+        .category-card,
+        .rating-card,
+        .employee-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.10000000149011612); */
+
+        }
+
+        .category-card h5,
+        .employee-card h5 {
+            font-size: 16px;
+            font-weight: 600;
+
+        }
+
+        .category-card p,
+        .employee-card p {
+            font-size: 14px;
+            margin-bottom: 0;
+
+        }
+
+
+        .rating-card {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .star-rating {
+            position: absolute;
+            top: 0px;
+            right: 10px;
+            color: yellow;
+            font-size: 16px;
+        }
+
+        .rating-card p {
+            margin-bottom: 5px;
+        }
+
+        .section-margin {
+            margin-bottom: 70px;
+        }
+
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .category-card,
+            .employee-card,
+            .rating-card {
+                padding: 10px;
+            }
+
+            .category-card h5,
+            .employee-card h5 {
+                font-size: 14px;
+            }
+
+            .container,
+            .row,
+            .col-12,
+            .col-10,
+            .col-2,
+            .col-8 {
+                margin: 0;
+            }
+
+            .action-link {
+                color: #75DBCD;
+                font-size: 14px;
+                /* display: block; */
+                /* Ensures each link is on a new line */
+                margin-bottom: 0;
+                /* Removes any gap between the links */
+                transition: color 0.3s;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+            }
+        }
+
+        input.form-control,
+        .form-control {
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .modal-instruction {
+            font-size: 14px;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+        }
+
+        .custom-save-button {
+            background-color: #75DBCD;
+            color: #1A535C;
+            /* font-weight: bold; */
+            font-size: 14px;
+            width: 100px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .custom-border {
+            /* border: 2px solid #333;  */
+            border-radius: 10px;
+            /* font-weight: bold; */
+            width: 100px;
+            font-size: 14px;
+            border: none;
+        }
+
+        .modal-body {
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            justify-content: center;
+        }
+
+        .input-group-text {
+            font-size: 14px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        hr {
+            border-top: 1px solid #1A535C;
+            /* Makes the line bolder and changes the color */
+        }
+
+        .no-wrap-button {
+            display: block;
+            /* Makes the button a block element */
+            margin: 0 auto;
+            /* Centers the button horizontally */
+            white-space: nowrap;
+            /* Prevents the text inside the button from wrapping */
+            width: auto;
+            /* Adjusts the width to fit the content */
+            padding: 5px 20px;
+            /* Adds padding on the left and right for more space */
+
+        }
+
+        .btn {
+            padding: 5px 20px;
+            font-size: 14px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            border-radius: 10px;
+            border: none;
+            /* width: 100px; */
+            min-width: 150px;
+            /* Adjusted width */
+        }
+
+        .nav-link-custom {
+            color: #75DBCD;
+            /* Adjust the color to match your theme */
+            transition: color 0.3s;
+        }
+
+        .nav-link-custom:hover {
+            color: #1A535C;
+            /* Darker shade for hover effect */
+            text-decoration: none;
+            /* Optional: removes underline on hover */
+        }
+
+
+
+        .action-link {
+            color: #75DBCD;
+            /* Adjust the color to match your theme */
+            font-size: 14px;
+            display: block;
+            /* Ensures each link is on a new line */
+            margin-bottom: 0;
+            /* Removes any gap between the links */
+            transition: color 0.3s;
+        }
+
+        .action-link:hover {
+            color: #1A535C;
+            /* Darker shade for hover effect */
+            text-decoration: none;
+            /* Removes underline on hover */
+        }
+
+        .btn-custom-secondary {
+            background-color: #6c757d;
+            /* Bootstrap secondary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .btn-custom-primary {
+            background-color: #007bff;
+            /* Bootstrap primary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .custom-save-button {
+            background-color: #75DBCD;
+            color: #1A535C;
+            font-weight: bold;
+            width: 100px;
+            /* Set the width of the button */
+            border: none;
+            border-radius: 10px;
+            /* Green background */
+            /* border-color: #4CAF50;  */
+            /* Green border */
+        }
+
+        .custom-border {
+            /* border: 2px solid #333;  */
+            border-radius: 10px;
+            /* font-weight: bold; */
+            width: 100px;
+            /* Set the width of the button */
+            /* Example: solid border with a dark color */
+        }
+
+        .employee-action,
+        .category-action {
+            display: flex;
+            flex-direction: column;
+            /* Stack the links vertically */
+            align-items: flex-end;
+            /* Align the links to the right */
+            justify-content: center;
+            /* Center the links vertically */
+        }
+
+        .category-card img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .error-message {
+            color: red;
+            font-size: small;
+            margin-top: 5px;
+        }
+        .fa-star {
+            color: #FFD700;
+            /* Yellow color for the stars */
+        }
+
+        .checked {
+            color: #FFD700;
+        }
+
+        .profilePict{
+            width: 100px;
+            height: 100px;  
+            border-radius: 50%;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logotekstoko.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/laporan">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Kategori Section -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <!-- <h2>Kategori <a href="#" class="float-right" data-toggle="modal" data-target="#addCategoryModal">Tambah</a></h2> -->
+                <h2>Kategori <a href="#" class="float-right" data-toggle="modal" data-target="#CategoryModal"
+                        onclick="openAddModal()">Tambah</a>
+
+                </h2>
+            </div>
+            <div class="col-12">
+                {% for category in categories %}
+                <div class="category-card">
+                    <div class="row">
+                        <!-- <div class="col-1"> -->
+                        <!-- <div class="col-2 col-md-1"> -->
+                        <div class="col-2 col-md-1 col-lg-1 d-flex align-items-center justify-content-center">
+                            <img src="../../static/kategori/{{ category.categoryType}}.png" class="img-fluid"
+                                alt="Category Image">
+                        </div>
+                        <!-- <div class="col-9"> -->
+                        <!-- <div class="col-10 col-md-9"> -->
+                        <div class="col-8 col-md-9">
+                            <h5>{{ category.categoryName}}</h5>
+                            <p>Rp {{ category.harga }} /kg</p>
+                            <p>{{ category.keterangan }}</p>
+                            <!-- <p>{{ category.idKategori }}</p> -->
+                        </div>
+                        <!-- <div class="col-2 d-flex flex-column align-items-end justify-content-center"> -->
+                        <!-- <div class="col-12 col-md-2 d-flex flex-column align-items-end justify-content-center"> -->
+                        <div class="col-2 col-md-2 d-flex flex-column align-items-end justify-content-center">
+                            <div class="category-action text-right">
+                                <a href="#" class="action-link" data-toggle="modal" data-target="#CategoryModal"
+                                    onclick="populateCategoryEditModal({{ category.idKategori }})">Ubah</a>
+                                <a href="#" class="action-link"
+                                    onclick="deleteCategory({{ category.idKategori }})">Hapus</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Add / Edit Kategori Modal -->
+        <!-- <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true"> -->
+        <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="CategoryModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="CategoryModalLabel"><strong>Tambah Kategori</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="categoryForm">
+                            <input type="hidden" id="categoryId">
+                            <div class="form-group">
+                                <label for="categoryType"><strong>Nama Kategori</strong></label>
+                                <select class="form-control" id="categoryType" required
+                                    onchange="checkForCustomCategory(this)">
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                    <option value="cuci_kering">Cuci Kering</option>
+                                    <option value="cuci_setrika_reguler">Cuci Setrika Reguler</option>
+                                    <option value="cuci_setrika_kilat">Cuci Setrika Kilat</option>
+                                    <option value="cuci_bedcover_selimut">Cuci Bed Cover dan Selimut</option>
+                                    <option value="setrika">Setrika</option>
+                                    <option value="lainnya">Lainnya (isi sendiri)</option>
+                                </select>
+                                <input type="text" class="form-control mt-2" id="customCategoryType"
+                                    placeholder="Masukkan nama kategori" style="display:none;">
+                                <small class="text-danger" id="categoryTypeError" style="display:none;"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryPrice"><strong>Harga</strong></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="categoryPrice" placeholder="Rp "
+                                        required oninput="validatePrice(this)">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">/kg</span>
+                                    </div>
+                                </div>
+                                <small class="text-danger" id="categoryPriceError" style="display:none;"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryNote"><strong>Catatan</strong> <span class="text-muted"
+                                        style="font-weight: normal;">(opsional)</span></label>
+                                <input type="text" class="form-control" id="categoryNote"
+                                    placeholder="Contoh: khusus baju berwarna">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-custom-primary custom-save-button"
+                            onclick="validateAndSaveKategori()">Simpan</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Petugas Section -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <h2>Petugas <a href="#" class="float-right" data-toggle="modal"
+                        data-target="#addPetugasModal">Tambah</a>
+                </h2>
+            </div>
+            <!-- Existing code above -->
+            <div class="col-12">
+                {% for employee in employees %}
+                <div class="employee-card">
+                    <div class="row">
+                        <div class="col-2">
+
+                            <img src="{{ employee.profil_petugas }}" class="img-fluid profilePict" alt="Employee Image">
+                        </div>
+                        <div class="col-8">
+                            <h5>{{ employee.nama_petugas }}</h5>
+                            <p>{{ employee.notelp_petugas }}</p>
+                            <p>{{ employee.email_petugas }}</p>
+                            <p>Password: {{ employee.password_petugas }}</p>
+                            <!-- Displaying password (not recommended) -->
+                        </div>
+                        <div class="col-2 d-flex flex-column align-items-end justify-content-center">
+                            <div class="employee-action text-right">
+                                <a href="#" class="action-link" data-toggle="modal" data-target="#editPetugasModal"
+                                    onclick="prepareEmployeeEditModal({{ employee.id_petugas }})">Ubah</a>
+                                <a href="#" class="action-link"
+                                    onclick="deletePetugas({{ employee.id_petugas }})">Hapus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Existing code below -->
+        </div>
+
+        <!-- Add Petugas Modal -->
+        <div class="modal fade" id="addPetugasModal" tabindex="-1" role="dialog" aria-labelledby="addPetugasModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addPetugasModalLabel"><strong>Tambah Petugas</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-instruction">Masukkan nama, nomor telepon dan email yang aktif, dan kata sandi
+                            yang akan diberikan kepada petugas untuk masuk ke aplikasi petugas nantinya.</p>
+                        <form>
+                            <div class="form-group">
+                                <label for="petugasName"><strong>Nama Petugas</strong></label>
+                                <input type="text" class="form-control" id="petugasName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="petugasPhone"><strong>Nomor Telepon</strong></label>
+                                <input type="tel" class="form-control" id="petugasPhone" required
+                                    oninput="validateNumber(this)">
+                            </div>
+                            <div class="form-group">
+                                <label for="petugasEmail"><strong>Email Petugas</strong></label>
+                                <input type="email" class="form-control" id="petugasEmail" required
+                                    oninput="validateEmail(this)">
+                            </div>
+                            <div class="form-group">
+                                <label for="petugasPassword"><strong>Password</strong></label>
+                                <input type="password" class="form-control" id="petugasPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="petugasPhoto"><strong>Foto Petugas</strong></label>
+                                <input type="file" class="form-control" id="petugasPhoto" accept="image/*">
+                            </div>
+                            <div id="inputPetugasError" class="error-message"></div>
+                            <!-- Placeholder for email error -->
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-custom-primary custom-save-button"
+                            onclick="validateAndSubmitPetugas()">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Edit Petugas Modal -->
+        <div class="modal fade" id="editPetugasModal" tabindex="-1" role="dialog"
+            aria-labelledby="editPetugasModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPetugasModalLabel"><strong>Ubah Petugas</strong></h5>
+                        <!-- Title made bold -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editPetugasForm">
+                            <div class="form-group">
+                                <label for="edit-petugasName"><strong>Nama Petugas</strong></label>
+                                <input type="text" class="form-control" id="edit-petugasName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-petugasPhone"><strong>Nomor Telepon</strong></label>
+                                <input type="tel" class="form-control" id="edit-petugasPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-petugasEmail"><strong>Email Petugas</strong></label>
+                                <input type="email" class="form-control" id="edit-petugasEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-petugasPassword"><strong>Password</strong></label>
+                                <input type="text" class="form-control" id="edit-petugasPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-petugasPhoto"><strong>Foto Petugas</strong></label>
+                                <input type="file" class="form-control" id="edit-petugasPhoto" accept="image/*">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button> -->
+                        <!-- <button type="button" class="btn btn-primary" onclick="saveEmployeeChanges()">Simpan</button> -->
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-custom-primary custom-save-button"
+                            onclick="saveEmployeeChanges()">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penilaian Section -->
+        <div class="row section-margin">
+            <div class="col-12">
+                <!-- <h2>Penilaian <a href="#" class="float-right">Lihat Semua</a></h2> -->
+                <h2>Penilaian </h2>
+            </div>
+            <div class="col-12">
+                {% for rating in penilaian %}
+                <div class="rating-card">
+                    <div class="row">
+                        <div class="col-12">
+                            <p><strong>{{ rating.emailUser }}</strong> <span class="text-muted">{{ rating.tanggal }}</span></p>
+                            <p>{{ rating.ulasan }}</p>
+                            <!-- <p class="service-links"><a href="#">{{ rating.layanan_diberikan }}</a></p> -->
+                            <!-- <p class="star-rating">★★★★★</p> -->
+                            {% for i in range(rating.rate |int) %}
+                            <span class="fa fa-star checked"></span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2023 LaundryLab</p>
+    </footer>
+
+    <script>
+        // KATEGORI
+        function validatePrice(input) {
+            // Remove any characters that are not digits
+            input.value = input.value.replace(/[^0-9]/g, '');
+            // Automatically add "Rp " if it's not present
+            if (!input.value.startsWith('Rp ')) {
+                input.value = 'Rp ' + input.value;
+            }
+        }
+        function checkForCustomCategory(select) {
+            var customInput = document.getElementById('customCategoryType');
+            if (select.value === 'lainnya') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        }
+
+        function validateAllCategories() {
+            // Get the category name and price inputs
+            var categoryType = document.getElementById('categoryType');
+            var customCategoryType = document.getElementById('customCategoryType');
+            var categoryPrice = document.getElementById('categoryPrice');
+            var isValid = true;
+
+
+            // Clear previous error messages
+            document.querySelectorAll('.text-danger').forEach(function (errorElement) {
+                errorElement.style.display = 'none';
+            });
+
+            // Validate category name
+            let nameErrorElement = categoryType.closest('.form-group').querySelector('.text-danger');
+            if (!categoryType.value || categoryType.value.trim() === "") {
+                nameErrorElement.textContent = "Pilih nama kategori.";
+                nameErrorElement.style.display = 'block';
+                isValid = false;
+            } else if (categoryType.value === 'lainnya' && (!customCategoryType.value || customCategoryType.value.trim() === "")) {
+                nameErrorElement.textContent = "Masukkan nama kategori.";
+                nameErrorElement.style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate category price
+            let priceErrorElement = categoryPrice.closest('.form-group').querySelector('.text-danger');
+            if (!categoryPrice.value || categoryPrice.value.replace(/\D/g, '') === "") {
+                priceErrorElement.textContent = "Masukkan harga kategori.";
+                priceErrorElement.style.display = 'block';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        async function validateAndSaveKategori() {
+            if (validateAllCategories()) {
+                // Gather form data
+                var categoryId = document.getElementById('categoryId').value;
+                var categoryType = document.getElementById('categoryType').value;
+                var categoryName = document.getElementById('categoryType').selectedOptions[0].label;
+                var customCategoryType = document.getElementById('customCategoryType').value;
+                var customCategoryName = categoryType === 'lainnya' ? customCategoryType : categoryName;
+
+                // var customCategoryType = document.getElementById('customCategoryType').value;
+                // var customCategoryName = document.getElementById('customCategoryType').value;
+                var categoryPrice = document.getElementById('categoryPrice').value.replace(/\D/g, ''); // Remove non-numeric characters
+                var categoryNote = document.getElementById('categoryNote').value;
+
+                // Use custom category name if 'lainnya' is selected
+                if (categoryType === 'lainnya') {
+                    categoryName = customCategoryName;
+                }
+
+                // Prepare data for API
+                var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+                try {
+                    // Prepare form data
+                    var formData = new FormData();
+                    formData.append('categoryType', categoryType);
+                    formData.append('categoryName', categoryName);
+                    formData.append('emailLaundry', adminEmail);
+                    formData.append('harga', categoryPrice);
+                    formData.append('keterangan', categoryNote);
+
+
+                    let apiUrl;
+                    let method;
+
+                    if (categoryId) {
+                        // Editing an existing category
+                        apiUrl = `https://laundrylab.pocari.id/editKategori/${categoryId}/${adminEmail}`;
+                        method = 'PUT';
+                    } else {
+                        // Adding a new category
+                        // Fetch existing categories to determine the highest idKategori
+                        const response = await fetch(`https://laundrylab.pocari.id/getKategori/${adminEmail}`);
+                        const data = await response.json();
+
+                        if (!data.success) {
+                            console.error('Failed to fetch categories:', data.error);
+                            return;
+                        }
+
+                        // Determine the highest idKategori
+                        const categories = data.categories;
+                        let maxId = 0;
+                        categories.forEach(category => {
+                            const id = parseInt(category.idKategori, 10);
+                            if (id > maxId) {
+                                maxId = id;
+                            }
+                        });
+
+                        // Increment the idKategori for the new category
+                        const newIdKategori = maxId + 1;
+                        formData.append('idKategori', newIdKategori);
+
+                        apiUrl = `https://laundrylab.pocari.id/addKategori/${adminEmail}`;
+                        method = 'POST';
+                    }
+
+                    // Send data to API
+                    const saveResponse = await fetch(apiUrl, {
+                        method: method,
+                        body: formData
+                    });
+
+                    const saveData = await saveResponse.json();
+
+                    if (saveData.success) {
+                        alert('Category saved successfully!');
+                        $('#CategoryModal').modal('hide');
+                        location.reload();  // Optionally reload the page to show the new category
+                    } else {
+                        alert('Failed to save category.');
+                    }
+                } catch (error) {
+                    console.error('Error saving category:', error);
+                    alert('Error saving category: ' + error);
+                }
+            }
+        }
+
+        async function populateCategoryEditModal(idKategori) {
+            var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+            try {
+                // Fetch the category data for the given idKategori
+                const response = await fetch(`https://laundrylab.pocari.id/getKategori/${adminEmail}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    console.error('Failed to fetch category data:', data.error);
+                    return;
+                }
+
+                // Find the category with the given idKategori
+                const category = data.categories.find(cat => cat.idKategori == idKategori);
+
+                if (category) {
+                    // console.log("Category found:", category);
+                    // Populate the modal fields with the existing category data
+                    const categoryTypeElement = document.getElementById('categoryType');
+                    const customCategoryTypeElement = document.getElementById('customCategoryType');
+                    const categoryPriceElement = document.getElementById('categoryPrice');
+                    const categoryNoteElement = document.getElementById('categoryNote');
+                    const categoryIdElement = document.getElementById('categoryId');
+
+                    // // Check if the categoryType matches any option in the dropdown
+                    // const dropdownOptions = Array.from(categoryTypeElement.options).map(option => option.value);
+
+                    // // if (dropdownOptions.includes(category.categoryType)) {
+                    // if (dropdownOptions.includes(category.categoryName)) {
+                    //     categoryTypeElement.value = category.categoryType;
+                    //     customCategoryTypeElement.style.display = 'none';
+                    //     console.log('ini category', category)
+                    // } else {
+                    //     categoryTypeElement.value = 'lainnya';
+                    //     customCategoryTypeElement.style.display = 'block';
+                    //     customCategoryTypeElement.value = category.categoryName;
+                    // }
+
+                    // Check if the categoryType matches any option in the dropdown
+                    const dropdownOptions = Array.from(categoryTypeElement.options).map(option => option.value);
+
+                    if (dropdownOptions.includes(category.categoryType) && category.categoryType !== 'lainnya') {
+                        categoryTypeElement.value = category.categoryType;
+                        customCategoryTypeElement.style.display = 'none';
+                    } else {
+                        categoryTypeElement.value = 'lainnya';
+                        customCategoryTypeElement.style.display = 'block';
+                        customCategoryTypeElement.value = category.categoryName;
+                    }
+
+                    categoryPriceElement.value = 'Rp ' + category.harga;
+                    categoryNoteElement.value = category.keterangan;
+                    categoryIdElement.value = idKategori;
+
+                    // Change the modal title to "Edit Category"
+                    // document.getElementById('categoryModalLabel').textContent = 'Ubah Kategori';
+                    const modalLabel = document.getElementById('CategoryModalLabel');
+                    modalLabel.innerHTML = '<strong>Ubah Kategori</strong>';
+
+                    // Show the modal
+                    // console.log("Showing modal");
+                    $('#categoryModal').modal('show');
+                } else {
+                    console.error('Category not found');
+                }
+            } catch (error) {
+                console.error('Error fetching category data:', error);
+            }
+        }
+
+        function openAddModal() {
+            // console.log("Opening Add Modal");
+            // Clear the form fields
+            document.getElementById('categoryForm').reset();
+            document.getElementById('customCategoryType').style.display = 'none';
+            document.getElementById('customCategoryType').value = '';
+            document.getElementById('categoryId').value = '';
+
+            // Reset the dropdown to the default option
+            document.getElementById('categoryType').value = '';
+
+            // Clear any error messages
+            document.querySelectorAll('.text-danger').forEach(function (errorElement) {
+                errorElement.style.display = 'none';
+            });
+
+            // Change the modal title to "Tambah Kategori"
+            // document.getElementById('categoryModalLabel').textContent = 'Tambah Kategori';
+            const modalLabel = document.getElementById('CategoryModalLabel');
+            modalLabel.innerHTML = '<strong>Tambah Kategori</strong>';
+
+            // Show the modal
+            $('#categoryModal').modal('show');
+        }
+
+        async function deleteCategory(idKategori) {
+            if (confirm('Are you sure you want to delete this category?')) {
+                var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+                try {
+                    const response = await fetch(`https://laundrylab.pocari.id/deleteKategori/${idKategori}/${adminEmail}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Category deleted successfully!');
+                        location.reload();  // Optionally reload the page to show the updated list
+                    } else {
+                        alert('Failed to delete category.');
+                    }
+                } catch (error) {
+                    console.error('Error deleting category:', error);
+                    alert('Error deleting category: ' + error);
+                }
+            }
+        }
+
+
+
+        // PETUGAS
+        function validateNumber(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        function validateEmail(input) {
+            if (!input.value.includes('@')) {
+                input.setCustomValidity('Email tidak valid');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+
+        async function prepareEmployeeEditModal(employeeId) {
+            console.log("Populating Edit Modal for employeeId:", employeeId);
+            var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+            try {
+                const response = await fetch(`https://laundrylab.pocari.id/getPetugasId/${employeeId}/${adminEmail}`, {
+                    method: 'GET'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                // Assuming response contains the employee data in a 'petugas' object
+                var petugas = data.petugas;
+                document.getElementById('edit-petugasName').value = petugas.nama_petugas;
+                document.getElementById('edit-petugasPhone').value = petugas.notelp_petugas;
+                document.getElementById('edit-petugasEmail').value = petugas.email_petugas;
+                document.getElementById('edit-petugasPassword').value = petugas.password_petugas;
+                // Assuming there is an input for the profile image in your form
+                document.getElementById('edit-petugasPhoto').value = ''; // Clear file input if necessary
+                // Set the modal's data attribute with the employee ID for further processing
+                document.getElementById('editPetugasModal').dataset.id = employeeId;
+                $('#editPetugasModal').modal('show');
+            } catch (error) {
+                console.error('Error fetching employee data:', error);
+            }
+        }
+
+
+        async function saveEmployeeChanges() {
+            var id = document.getElementById('editPetugasModal').dataset.id;
+            console.log(id)
+
+            var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+            // Create a FormData object and append the form fields
+            var formData = new FormData();
+            formData.append('nama_petugas', document.getElementById('edit-petugasName').value);
+            formData.append('notelp_petugas', document.getElementById('edit-petugasPhone').value);
+            formData.append('email_petugas', document.getElementById('edit-petugasEmail').value);
+            formData.append('password_petugas', document.getElementById('edit-petugasPassword').value);
+
+            // Assuming there is an input for the profile image in your form
+            var photo = document.getElementById('edit-petugasPhoto').files[0];
+            // Log FormData contents, cek data
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+
+            if (photo) {
+                formData.append('profil_petugas', photo);
+            }
+
+            try {
+                const response = await fetch(`https://laundrylab.pocari.id/updatePetugas/${id}/${adminEmail}`, {
+                    method: 'PUT',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('ini data', data)
+
+                if (data.success) {
+                    alert('Employee data updated successfully!');
+                    $('#editPetugasModal').modal('hide');
+                    location.reload(); // Optionally reload the page to show the updated data
+                } else {
+                    alert('Failed to update employee data.');
+                }
+            } catch (error) {
+                console.error('Error updating employee data:', error);
+                alert('Error updating employee data: ' + error.message);
+            }
+        }
+
+        async function validateAndSubmitPetugas() {
+            // Now get the user_email from sessionStorage
+            const userEmail = sessionStorage.getItem('user_email');
+
+            // Get form values
+            var nama = $('#petugasName').val();
+            var nomor = $('#petugasPhone').val();
+            var email = $('#petugasEmail').val();
+            var password = $('#petugasPassword').val();
+            var foto = $('#petugasPhoto')[0].files[0]; // Ensure you're accessing the file correctly
+
+            var inputPetugasError = document.getElementById('inputPetugasError');
+
+            // Validate fields are not empty
+            // if (!nama || !nomor || !email || !password) {
+            if (!nama || !nomor || !email || !password || !foto) {
+                inputPetugasError.innerHTML = 'Semua data harus diisi';
+                return;
+            } else {
+                sessionStorage.setItem('admin_email', '{{ session.get("admin_email", "") }}');
+                const adminEmail = sessionStorage.getItem('admin_email');
+
+                async function fetchLastPetugasId() {
+                    try {
+                        const response = await fetch(`https://laundrylab.pocari.id/getPetugas/${adminEmail}`, {
+                            method: 'GET',
+                        });
+                        const data = await response.json();
+                        if (data.success && data.users.length > 0) {
+                            const lastId = Math.max(...data.users.map(user => parseInt(user.id_petugas) || 0));
+                            return lastId + 1; // Increment the last ID
+                        } else {
+                            return 1; // Default to 1 if no users are found
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Gagal getch getpetugas: ' + error.message);
+                        return 1; // Default to 1 in case of error
+                    }
+                }
+
+                const idPetugas = await fetchLastPetugasId(); // Fetch and increment the last admin ID
+
+                // Prepare data for API
+                var formData = new FormData();
+                formData.append('id_petugas', idPetugas);
+                formData.append('emailLaundry', adminEmail);
+                formData.append('nama_petugas', nama);
+                formData.append('notelp_petugas', nomor);
+                formData.append('email_petugas', email);
+                formData.append('password_petugas', password);
+                formData.append('profil_petugas', foto); // Assuming 'profil_petugas' is the field name for the photo
+
+                // Send data to the server using FormData
+                fetch(`https://laundrylab.pocari.id/petugasRegister/${adminEmail}`, {
+                    method: 'POST',
+                    body: formData // Send as FormData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        if (data.success) {
+                            alert('Petugas berhasil didaftarkan');
+                            location.reload();
+                        } else {
+                            alert('Gagal mendaftarkan petugas: ' + (data.message || "An unknown error occurred."));
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('Gagal mendaftarkan petugas: ' + error.message);
+                    });
+            }
+        }
+
+        async function deletePetugas(idPetugas) {
+            if (confirm('Are you sure you want to delete this petugas?')) {
+                var adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+
+                try {
+                    const response = await fetch(`https://laundrylab.pocari.id/deletePetugas/${idPetugas}/${adminEmail}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Petugas deleted successfully!');
+                        location.reload();  // Optionally reload the page to show the updated list
+                    } else {
+                        alert('Failed to delete petugas.');
+                    }
+                } catch (error) {
+                    console.error('Error deleting petugas:', error);
+                    alert('Error deleting petugas: ' + error);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            sessionStorage.setItem('admin_email', '{{ session.get("admin_email", "") }}');
+            sessionStorage.setItem('admin_id', '{{ session.get("admin_id", "") }}');
+            // console.log('Stored admin_email:', sessionStorage.getItem('admin_email'));
+            // console.log('Stored admin_id:', sessionStorage.getItem('admin_id'));
+
+            // Now get the admin_email from sessionStorage
+            const adminEmail = sessionStorage.getItem('admin_email');
+            if (!adminEmail) {
+                console.error('Admin email is not available.');
+                return;
+            }
+
+            console.log("Logged in Email:", adminEmail); // Check what email is being fetched
+
+
+         
+
+        });
+    </script>
+</body>
+
+</html>

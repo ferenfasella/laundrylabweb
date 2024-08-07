@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+            }
+        }
+
+        .search-location {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .categories {
+            display: flex;
+            /* justify-content: space-between; */
+            /* flex-wrap: wrap; */
+            margin-bottom: 20px;
+
+            /* display: flex; */
+            overflow-x: auto;
+            /* white-space: nowrap; */
+        }
+
+        .category {
+            /* background-color: #f8f9fa; */
+            background-color: white;
+
+            flex: 0 0 auto;
+
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            margin-right: 15px;
+            border-radius: 10px;
+            width: 150px;
+            height: 120px;
+            font-size: 14px;
+            text-align: center;
+            color: #1A535C;
+        }
+
+        .category img {
+            width: 50px;
+            height: 50px;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        .selected {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            /* background-color: #e0e0e0; */
+        }
+
+        .card {
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-deck .card {
+            margin-bottom: 20px;
+        }
+
+        .card-img-top {
+            width: 100%;
+            /* height: auto; */
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-title,
+        .card-status,
+        .card-address,
+        .card-distance,
+        .card-rating,
+        .card-price,
+        .card-date {
+            /* margin-bottom: 5px; */
+            font-size: 14px;
+            margin-bottom: 0px;
+        }
+
+        .card-address {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .search-location {
+                flex-direction: column;
+            }
+
+            .search-location input {
+                margin-bottom: 10px;
+            }
+
+            .categories {
+                /* flex-direction: column; */
+            }
+
+            .category {
+                /* width: 100%; */
+            }
+        }
+
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        a {
+            color: #1A535C;
+            /* Set the font color for all text elements */
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Additional styles for input with icon */
+        .input-icon {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 50%;
+            /* Width remains 50% */
+            margin-left: 0;
+            /* Align to the left */
+        }
+
+        .input-icon input {
+            flex-grow: 1;
+            border-radius: 10px;
+            padding-right: 40px;
+            /* Make space for the icon */
+        }
+
+        .icon-search {
+            position: absolute;
+            right: 0;
+            margin-right: 5px;
+
+            border: none;
+            background: none;
+            color: #1A535C;
+            /* Icon color */
+            cursor: pointer;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .card-status,
+        .category-card-status {
+            font-weight: bold;
+            color: #75DBCD;
+        }
+
+        .card-details {
+            display: flex;
+            /* justify-content: space-between; */
+            align-items: center;
+        }
+
+        .card-details-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-details-top {
+            display: flex;
+            /* align-items: center; */
+            justify-content: space-between;
+
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .laod-more {
+            text-align: center;
+            font-size: 14px;
+            margin: 0 auto;
+            /* Center the element horizontally */
+            display: block;
+            /* Ensure it takes up the full width */
+            margin-bottom: 20px;
+        }
+
+        .custom-select {
+            border: 1px solid #1A535C;
+            /* Set border with color #1A535C */
+            color: #1A535C;
+            /* Set font color to #1A535C */
+            border-radius: 10px;
+            /* Set border radius to 10px */
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+
+        .custom-button {
+            border: 1px solid #1A535C;
+            /* Set border with color #1A535C */
+            color: #1A535C;
+            /* Set font color to #1A535C */
+            border-radius: 10px;
+            /* Set border radius to 10px */
+            padding: 5px 10px;
+            margin-right: 10px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 10px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .custom-button:hover .dropdown-content {
+            display: block;
+        }
+
+        .custom-select-loc {
+            border-radius: 10px;
+            width: 200px;
+        }
+
+        .category-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.10000000149011612); */
+
+        }
+
+        .category-card h5 {
+            font-size: 16px;
+            font-weight: 600;
+
+        }
+
+        .category-card p {
+            font-size: 14px;
+            margin-bottom: 0;
+
+        }
+
+        .category-card img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #FilteredCategoryCard {
+            display: none;
+            /* Initially hide the entire FilteredCategoryCard div */
+        }
+
+        .filtered-category-card {
+            display: none;
+            /* Initially hide all filtered category cards */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logoteks.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search and Location -->
+        <div class="search-location">
+            <div class="input-icon">
+                <input type="text" class="form-control" placeholder="Mau cuci apa?" id="searchInput"
+                    oninput="performSearch(this)">
+                <href class="icon-search" onclick="performSearch()">
+                    <i class="fas fa-search"></i>
+                </href>
+            </div>
+            <select class="form-control custom-select-loc" id="locationSelect" required
+                onchange="handleLocationChange()">
+                <option value="" disabled selected>Pilih Alamat</option>
+                <!-- Update the location options to be dynamically generated from the database using Jinja2 -->
+                {% for address in address %}
+                <!-- <option value="{{ address | tojson | safe }}">{{ address.alamat }} </option> -->
+
+                <option value="{{ address.idAlamat }}" data-latitude="{{ address.latitudeUser }}"
+                    data-longitude="{{ address.longitudeUser }}">
+                    {{ address.alamat }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category" data-category="Cuci Kering" data-toggled="false">
+                <img src="../../static/kategori/cuci_kering.png" alt="Cuci Kering">
+                Cuci Kering
+            </button>
+            <button class="category" data-category="Cuci Setrika Reguler" data-toggled="false">
+                <img src="../../static/kategori/cuci_setrika_reguler.png" alt="Cuci Setrika Reguler">
+                Cuci Setrika Reguler
+            </button>
+            <button class="category" data-category="Cuci Setrika Kilat" data-toggled="false">
+                <img src="../../static/kategori/cuci_setrika_kilat.png" alt="Cuci Setrika Kilat">
+                Cuci Setrika Kilat
+            </button>
+            <button class="category" data-category="Cuci Bed Cover dan Selimut" data-toggled="false">
+                <img src="../../static/kategori/cuci_bedcover_selimut.png" alt="Cuci Bed Cover dan Selimut">
+                Cuci Bed Cover dan Selimut
+            </button>
+            <button class="category" data-category="Setrika" data-toggled="false">
+                <img src="../../static/kategori/setrika.png" alt="Setrika">
+                Setrika
+            </button>
+            <button class="category" data-category="Lainnya" data-toggled="false">
+                <img src="../../static/kategori/cuci_lainnya.png" alt="Lainnya">
+                Lainnya
+            </button>
+        </div>
+
+        <!-- Filtered Category Card -->
+        <div id="FilteredCategoryCard">
+            <h2>Filtered Category Card</h2>
+
+            {% for category in all_global_categories %}
+            <!-- <a class="row" id="filtered-category-card-row"> -->
+            <a href="/pelanggan/detaillaundry/{{category.emailLaundry}}" class="row filtered-category-card"
+                data-category="{{ category.categoryName }}">
+                <div class="col-12">
+                    <div class="category-card">
+                        <div class="d-flex">
+                            <div class="col-2 col-md-1 col-lg-1 d-flex align-items-center justify-content-center">
+                                <img src="../../static/kategori/{{ category.categoryType }}.png" class="img-fluid"
+                                    alt="Category Image">
+
+                            </div>
+                            <div class="col-8 col-md-9">
+                                <div class="card-details">
+                                    <div>
+                                        <div class="card-details-top">
+                                            <h5>{{ category.namaLaundry }}</h5>
+                                            <div class="d-flex align-items-start">
+                                                {% for rating in average_rating_dict %}
+                                                {% if rating.emailLaundry == category.emailLaundry %}
+                                                <p class="card-rating">&#11088; {{ rating.rating | round(1) }}</p>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <p class="category-card-address">{{ category.alamatLaundry }}</p>
+                                        <p
+                                            class="category-card-status {% if category.bukaTutupLaundry == 'Tutup' %} text-muted {% endif %}">
+                                            {{ category.bukaTutupLaundry }}</p>
+                                    </div>
+                                    <div style="margin-left: 40%;">
+                                        <h5>{{ category.categoryName }}</h5>
+                                        <p class="category-card-harga">Rp {{ category.harga }}/kg</p>
+                                        <p class="category-card-keterangan">{{ category.keterangan }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+            <div class="handle-kategori-kosong">
+                <p>Belum ada kategori yang tersedia</p>
+            </div>
+        </div>
+
+        <!-- Cari Laundry  -->
+        <div id="CariLaundrySection">
+            <h2>Pencarian Laundry </h2>
+            <div class="row row-cols-1 row-cols-md-4 g-4" id="cari-laundry-card-row">
+
+                {% for laundry in laundries %}
+                <div class="col" id="cari-laundry-card-col" data-latitude="{{ laundry.latitudeLaundry }}"
+                    data-longitude="{{ laundry.longitudeLaundry }}">
+
+                    <a href="/pelanggan/detaillaundry/{{ laundry.email }}" class=" cari-laundry-card">
+                        <div class="card cari-laundry-card-">
+                            <img src="{{laundry.profilPict}}" class="card-img-top" alt="Laundry Image">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title">{{ laundry.namaLaundry }}</h5>
+                                    {% for rating in average_rating_dict %}
+                                    {% if rating.emailLaundry == laundry.email %}
+                                    <p class="card-rating">&#11088; {{ rating.rating | round(1) }}</p>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p class="card-address">{{ laundry.alamat }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p
+                                        class="card-status {% if laundry.bukaTutupLaundry == 'Tutup' %} text-muted {% endif %}">
+                                        {{ laundry.bukaTutupLaundry }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+
+            </div>
+
+
+            <p class="mb-4" id="no-results-message" style="display: none;">Laundry tidak ditemukan</p>
+
+
+            <!-- Load More link -->
+            <!-- <a href="#" onclick="loadMoreCards(); return false;" class="laod-more">Load More</a> -->
+        </div>
+
+        <!-- Laundry Terdekat -->
+        <div id="NearestLaundrySection">
+            <h2>Laundry Terdekat</h2>
+            <div class="row row-cols-1 row-cols-md-4 g-4 mb-4" id="nearest-card-row">
+
+                {% for laundry in laundries %}
+                <div class="col" id="nearest-card-col" data-latitude="{{ laundry.latitudeLaundry }}"
+                    data-longitude="{{ laundry.longitudeLaundry }}">
+                    <a href="/pelanggan/detaillaundry/{{laundry.email}}" class="card nearest-card"
+                        data-latitude="{{ laundry.latitudeLaundry }}" data-longitude="{{ laundry.longitudeLaundry }}">
+                        <!-- <div class="card nearest-card"> -->
+                        <img src="{{laundry.profilPict}}" class="card-img-top" alt="Laundry Image">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ laundry.namaLaundry }}</h5>
+                                {% for rating in average_rating_dict %}
+                                {% if rating.emailLaundry == laundry.email %}
+                                <p class="card-rating">&#11088; {{ rating.rating | round(1) }}</p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <p class="card-address">{{ laundry.alamat }} </p>
+                            <div class="d-flex justify-content-between">
+                                <p
+                                    class="card-status {% if laundry.bukaTutupLaundry == 'Tutup' %} text-muted {% endif %}">
+                                    {{ laundry.bukaTutupLaundry }}</p>
+                                <p class="card-distance"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Load More link -->
+            <!-- <a href="#" onclick="loadMoreCards(); return false;" class="laod-more">Load More</a> -->
+        </div>
+
+
+        <!-- Semua Laundry  -->
+        <div id="SemuaLaundrySection">
+            <h2>Semua Laundry </h2>
+            <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+                {% for laundry in laundries %}
+                <a href="/pelanggan/detaillaundry/{{ laundry.email }}" class="col">
+                    <div class="card">
+                        <img src="{{laundry.profilPict}}" class="card-img-top" alt="Laundry Image">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ laundry.namaLaundry }}</h5>
+                                {% for rating in average_rating_dict %}
+                                {% if rating.emailLaundry == laundry.email %}
+                                <p class="card-rating">&#11088; {{ rating.rating | round(1) }}</p>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <p class="card-address">{{ laundry.alamat }}</p>
+                            <div class="d-flex justify-content-between">
+                                <p
+                                    class="card-status {% if laundry.bukaTutupLaundry == 'Tutup' %} text-muted {% endif %}">
+                                    {{ laundry.bukaTutupLaundry }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Load More link -->
+            <!-- <a href="#" onclick="loadMoreCards(); return false;" class="laod-more">Load More</a> -->
+        </div>
+
+
+
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 LaundryLab</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Store the original list of laundry cards
+        let originalCards = [];
+
+        function performSearch(inputElement) {
+            var input = inputElement.value.toLowerCase();
+            var noResultsMessage = document.getElementById('no-results-message');
+            var hasResults = false;
+            var cariLaundrySection = document.getElementById('CariLaundrySection');
+
+            // If input is blank, hide the CariLaundrySection and return
+            if (input.trim() === '') {
+                cariLaundrySection.style.display = 'none';
+                return;
+            }
+
+            // Filter the original list of cards
+            var filteredCards = originalCards.filter(function (card) {
+                var title = card.querySelector('.card-title').textContent.toLowerCase();
+                return title.includes(input);
+            });
+
+            console.log("filteredCards:", filteredCards);
+
+            if (filteredCards.length > 0) {
+                hasResults = true;
+            }
+
+            // Append filtered cards
+            var searchedLaundryCardRow = document.getElementById('cari-laundry-card-row');
+            searchedLaundryCardRow.innerHTML = '';
+            filteredCards.forEach(function (card) {
+                // container.appendChild(card);
+                let openingdivText = '<div class="col" id="cari-laundry-card-col">';
+                let closingdivText = '</div>';
+                let searchedLaundryText = card.outerHTML;
+                let insertText = openingdivText + searchedLaundryText + closingdivText;
+                searchedLaundryCardRow.innerHTML += insertText
+            });
+
+            if (hasResults) {
+                noResultsMessage.style.display = 'none';
+            } else {
+                noResultsMessage.style.display = 'block';
+            }      
+
+            cariLaundrySection.style.display = 'block';
+        }
+
+        function loadMoreCards() {
+            var additionalCards = document.getElementById('additionalCards');
+            additionalCards.style.display = 'flex'; // Change display to 'flex' to show the hidden cards
+        }
+
+
+        // LAUNDRY TERDEKAT
+        function handleLocationChange() {
+            var locationSelect = document.getElementById('locationSelect');
+            var selectedValue = locationSelect.value;
+
+            var categorySection = document.querySelector('.categories');
+            var nearestLaundrySection = document.getElementById('NearestLaundrySection');
+            var semuaLaundrySection = document.getElementById('SemuaLaundrySection');
+
+            if (selectedValue) {
+                // categorySection.style.display = 'none';
+                semuaLaundrySection.style.display = 'none';
+                nearestLaundrySection.style.display = 'block';
+            } else {
+                // categorySection.style.display = 'block';
+                semuaLaundrySection.style.display = 'block';
+                nearestLaundrySection.style.display = 'none';
+            }
+
+            var selectedOption = locationSelect.options[locationSelect.selectedIndex];
+            var userLatitude = selectedOption.getAttribute('data-latitude'); // Get user's latitude from the selected address
+            var userLongitude = selectedOption.getAttribute('data-longitude'); // Get user's longitude from the selected address
+
+
+            var laundries = document.querySelectorAll('.nearest-card');
+            // var laundries = document.querySelectorAll('.nearest-card-col');
+            laundries.forEach(function (laundry) {
+                var laundryLatitude = parseFloat(laundry.getAttribute('data-latitude')); // Get laundry's latitude
+                var laundryLongitude = parseFloat(laundry.getAttribute('data-longitude')); // Get laundry's longitude
+
+                var distance = calculateDistance(userLatitude, userLongitude, laundryLatitude, laundryLongitude);
+                var distanceElement = laundry.querySelector('.card-distance');
+                if (distanceElement) {
+                    distanceElement.innerHTML = '<i class="fas fa-map-marker-alt"></i> ' + distance + ' km';
+                }
+            });
+
+            // Calculate distances and sort laundry items by distance
+            var userLatitude = parseFloat(userLatitude); // Convert user's latitude to a number
+            var userLongitude = parseFloat(userLongitude); // Convert user's longitude to a number
+
+            // Calculate distances and sort laundry items
+            var sortedLaundries = Array.from(laundries).sort(function (a, b) {
+                var aLatitude = parseFloat(a.getAttribute('data-latitude'));
+                var aLongitude = parseFloat(a.getAttribute('data-longitude'));
+                var bLatitude = parseFloat(b.getAttribute('data-latitude'));
+                var bLongitude = parseFloat(b.getAttribute('data-longitude'));
+
+                var distanceA = calculateDistance(userLatitude, userLongitude, aLatitude, aLongitude);
+                var distanceB = calculateDistance(userLatitude, userLongitude, bLatitude, bLongitude);
+
+                return distanceA - distanceB; // Sort by distance
+            });
+
+            var nearestLaundryCardRow = document.getElementById('nearest-card-row');
+            nearestLaundryCardRow.innerHTML = '';
+            if (nearestLaundryCardRow) {
+                sortedLaundries.forEach(function (laundry) {
+                    let openingdivText = '<div class="col" id="nearest-card-col">';
+                    let closingdivText = '</div>';
+                    let laundryText = laundry.outerHTML;
+                    let insertText = openingdivText + laundryText + closingdivText;
+                    nearestLaundryCardRow.innerHTML += insertText;
+                });
+            } else {
+                console.error('nearestLaundryCard is null. Make sure the element exists in the document.');
+            }
+        }
+
+        // Function to calculate distance between two sets of latitude and longitude using Haversine formula
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            var R = 6371; // Radius of the Earth in km
+            var dLat = deg2rad(lat2 - lat1);
+            var dLon = deg2rad(lon2 - lon1);
+            var a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var distance = R * c;
+            return distance.toFixed(1); // Return distance rounded to 1 decimal place
+        }
+
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            sessionStorage.setItem('user_email', '{{ session.get("user_email", "") }}');
+            sessionStorage.setItem('admin_id', '{{ session.get("admin_id", "") }}');
+
+            // Now get the user_email from sessionStorage
+            const userEmail = sessionStorage.getItem('user_email');
+            console.log("Logged in Email:", userEmail); // Check what email is being fetched
+
+
+            const buttons = document.querySelectorAll('.category');
+
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // laundry terdekat
+            handleLocationChange();
+
+
+            // filter kategori
+            // Add event listener to category buttons
+            document.querySelectorAll('.category').forEach(button => {
+                button.addEventListener('click', function () {
+                    const selectedCategory = this.getAttribute('data-category');
+                    const isToggled = this.getAttribute('data-toggled') === 'true';
+                    // const isSelected = this.classList.contains('selected');
+
+                    // console.log(`Button clicked: ${selectedCategory}, isSelected: ${isSelected}`);
+
+
+                    // Hide all filtered category cards
+                    document.querySelectorAll('.filtered-category-card').forEach(card => {
+                        card.style.display = 'none';
+                    });
+
+                    // let hasMatch = false;
+
+
+                    // if (selectedCategory === 'Lainnya') {
+                    //     // Show the filtered category cards that don't match any predefined category
+                    //     document.querySelectorAll('.filtered-category-card').forEach(card => {
+                    //         const cardCategory = card.getAttribute('data-category');
+                    //         if (!['Cuci Kering', 'Cuci Setrika Reguler', 'Cuci Setrika Kilat', 'Cuci Bed Cover dan Selimut', 'Setrika'].includes(cardCategory)) {
+                    //             card.style.display = 'block';
+                    //             hasMatch = true;
+                    //         }
+                    //     });
+                    // } else {
+                    //     // Show the filtered category cards that match the selected category
+                    //     document.querySelectorAll(`.filtered-category-card[data-category="${selectedCategory}"]`).forEach(card => {
+                    //         card.style.display = 'block';
+                    //         hasMatch = true;
+                    //     });
+                    // }
+
+                    // // Show the FilteredCategoryCard div
+                    // document.getElementById('FilteredCategoryCard').style.display = 'block';
+
+                    // // Show or hide the "Belum ada kategori yang tersedia" message
+                    // if (hasMatch) {
+                    //     document.querySelector('.handle-kategori-kosong').style.display = 'none';
+                    // } else {
+                    //     document.querySelector('.handle-kategori-kosong').style.display = 'block';
+                    // }
+
+                    // // Remove 'selected' class from all buttons and add to the clicked button
+                    // document.querySelectorAll('.category').forEach(btn => btn.classList.remove('selected'));
+                    // this.classList.add('selected');
+
+
+
+                    if (isToggled) {
+                    // Reset the filter
+                    document.getElementById('FilteredCategoryCard').style.display = 'none';
+                    document.querySelector('.handle-kategori-kosong').style.display = 'none';
+                    document.querySelectorAll('.category').forEach(btn => {
+                        btn.classList.remove('selected');
+                        btn.setAttribute('data-toggled', 'false'); // Reset the toggle state
+                    });
+                } else {
+                    let hasMatch = false;
+
+                    if (selectedCategory === 'Lainnya') {
+                        // Show the filtered category cards that don't match any predefined category
+                        document.querySelectorAll('.filtered-category-card').forEach(card => {
+                            const cardCategory = card.getAttribute('data-category');
+                            if (!['Cuci Kering', 'Cuci Setrika Reguler', 'Cuci Setrika Kilat', 'Cuci Bed Cover dan Selimut', 'Setrika'].includes(cardCategory)) {
+                                card.style.display = 'block';
+                                hasMatch = true;
+                            }
+                        });
+                    } else {
+                        // Show the filtered category cards that match the selected category
+                        document.querySelectorAll(`.filtered-category-card[data-category="${selectedCategory}"]`).forEach(card => {
+                            card.style.display = 'block';
+                            hasMatch = true;
+                        });
+                    }
+
+                    // Show the FilteredCategoryCard div
+                    document.getElementById('FilteredCategoryCard').style.display = 'block';
+
+                    // Show or hide the "Belum ada kategori yang tersedia" message
+                    if (hasMatch) {
+                        document.querySelector('.handle-kategori-kosong').style.display = 'none';
+                    } else {
+                        document.querySelector('.handle-kategori-kosong').style.display = 'block';
+                    }
+
+                    // Remove 'selected' class from all buttons and add to the clicked button
+                    document.querySelectorAll('.category').forEach(btn => {
+                        btn.classList.remove('selected');
+                        btn.setAttribute('data-toggled', 'false'); // Reset the toggle state for all buttons
+                    });
+                    this.classList.add('selected');
+                    this.setAttribute('data-toggled', 'true'); // Set the toggle state for the clicked button
+                }
+
+
+                });
+            });
+
+            // hide searched laundry card
+            document.getElementById('CariLaundrySection').style.display = 'none';
+            originalCards = Array.from(document.querySelectorAll('.cari-laundry-card'));
+
+        });
+
+
+    </script>
+</body>
+
+</html>

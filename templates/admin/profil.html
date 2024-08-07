@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- mapbox -->
+    <!-- <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script> -->
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+        type="text/css">
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            /* Changed from '100%' to 'auto' */
+            margin: 0;
+            /* Remove default margin */
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            /* Adjust the 60px based on the actual height of your footer */
+            /* This ensures that the container takes up at least the remaining height not covered by the footer */
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            /* font-weight: 600; */
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            /* Changed from 'fixed' to 'relative' */
+            margin-top: auto;
+            /* Push the footer to the bottom */
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            /* margin-top: 10px; */
+            margin-bottom: 0px;
+            /* font-size: 24px; */
+            font-weight: 500;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                /* Smaller logo for smaller screens */
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+                /* Smaller font size for nav links */
+            }
+
+            h2 {
+                font-size: 20px;
+                /* Smaller headings */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                /* Smaller logo for smaller screens */
+                margin: 5px;
+                /* Adjust margin to keep layout tight */
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                /* Reduce margin to save space */
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+                /* Reduce padding to save space */
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+                /* Optionally reduce font size for nav links */
+            }
+        }
+
+        h5 a {
+            /* color: #1A535C; */
+            color: #75DBCD;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .status-container {
+            border: 1px solid #e0e0e0;
+            /* box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1); */
+            border-radius: 20px;
+
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+
+            display: inline-block;
+        }
+
+        .status-open {
+            background-color: #1A535C;
+            /* Green color for "Buka" */
+        }
+
+        .status-closed {
+            background-color: #FF6B6B;
+            /* Red color for "Tutup" */
+        }
+
+        .status-gray {
+            background-color: #ccc;
+            /* Gray color for "Tutup" */
+        }
+
+        .status-container.active {
+            background-color: #f0f0f0;
+            /* Light gray background when active */
+        }
+
+        .card {
+            border-radius: 20px;
+            margin-bottom: 15px;
+            /* box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1); */
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px 30px 20px 30px;
+        }
+
+        .no-border {
+            border: none !important;
+            background-color: transparent !important;
+            outline: none;
+            /* Removes the outline when the button is focused */
+        }
+
+        .no-border:hover {
+            color: #75DBCD;
+            /* Change to your desired hover color */
+            text-decoration: underline;
+            /* Adds underline on hover */
+        }
+
+        .no-border:focus {
+            border: none !important;
+            /* Ensures no border appears when the button is clicked */
+            outline: none;
+            /* Additional reinforcement to remove focus outline */
+        }
+
+        .text-center p {
+            margin-bottom: 0;
+            /* Remove bottom margin from p tags in this div */
+        }
+
+        .dropdown-toggle::after {
+            margin-left: 0;
+        }
+
+        .card-link {
+            color: #75DBCD;
+            /* Change the color */
+            display: block;
+            font-size: 14px;
+            /* Make the link a block element to allow centering */
+            text-align: center;
+            /* Center the text horizontally */
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+            /* Adds underline on hover */
+        }
+
+        .divider {
+            border-top: 1px solid #1A535C;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 14px;
+            /* Set the font size for card text */
+        }
+
+        .link-color {
+            color: #75DBCD;
+            /* Set the color for links with class 'link-color' */
+        }
+
+        .card-body .d-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align items to the top */
+        }
+
+        .ubah-link {
+            color: #75DBCD;
+            /* Change the color */
+            text-decoration: none;
+            /* Optional: removes underline */
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                flex-grow: 1;
+                /* Allows the title to expand and fill the space */
+            }
+
+            .ubah-link {
+                flex-shrink: 0;
+                /* Prevents the link from shrinking */
+            }
+        }
+
+        .row {
+            display: flex;
+            align-items: start;
+            /* Aligns the card to the top */
+        }
+
+        .no-padding-right {
+            padding-right: 0 !important;
+        }
+
+        .ubah-link {
+            color: #75DBCD;
+            /* Change the color */
+            float: right;
+            /* Align the link to the right */
+
+        }
+
+        .modal-content {
+            border-radius: 20px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        /* .modal-body .form-group label{
+            align-items: left;
+        } */
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* For other browsers like Firefox, you might need additional CSS */
+        /* input[type="time"] {
+            appearance: none;
+            -moz-appearance: textfield;
+        } */
+
+        @media (max-width: 575px) {
+            .form-group .col-4 {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .custom-control-label {
+                margin-left: 0.5rem;
+                font-weight: 100;
+                /* Adjust label spacing for smaller screens */
+            }
+
+            .col-form-label {
+                align-items: center;
+            }
+        }
+
+        .btn-custom-secondary {
+            background-color: #6c757d;
+            /* Bootstrap secondary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .btn-custom-primary {
+            background-color: #007bff;
+            /* Bootstrap primary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .custom-save-button {
+            background-color: #75DBCD;
+            color: #1A535C;
+            font-weight: bold;
+            width: 100px;
+            /* Set the width of the button */
+            border: none;
+            border-radius: 10px;
+            /* Green background */
+            /* border-color: #4CAF50;  */
+            /* Green border */
+        }
+
+        .custom-border {
+            /* border: 2px solid #333;  */
+            border-radius: 10px;
+            /* font-weight: bold; */
+            width: 100px;
+            /* Set the width of the button */
+            /* Example: solid border with a dark color */
+        }
+
+        .modal-body {
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            justify-content: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* This will vertically center the items */
+        }
+
+        .payment-details {
+            flex-grow: 1;
+            /* Allows the details section to take up the available space */
+        }
+
+        .payment-actions {
+            display: flex;
+            flex-direction: column;
+            /* Stack the links vertically */
+            align-items: flex-end;
+            /* Align the links to the right */
+            justify-content: center;
+            /* Center the links vertically */
+        }
+
+        .ubah-link,
+        .hapus-link {
+            color: #75DBCD;
+            /* Set the desired color, assuming #75DBCD is the color used for 'Ubah' */
+            text-decoration: none;
+            /* Optional: removes underline */
+        }
+
+        .form-group label {
+            text-align: left;
+            /* Aligns text to the left */
+            display: block;
+            /* Makes the label a block element, allowing it to take the full width */
+        }
+
+        .modal-header .modal-title strong {
+            font-weight: bold !important;
+            /* Ensure the text is bold */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logotekstoko.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/laporan">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+
+                <!-- Profile -->
+                <img src="{{ admin_data.profilPict if admin_data.profilPict else '../../static/profil.png' }}"
+                    alt="Profile Image" class="rounded-circle" width="100">
+                <!-- <h3 class="mt-3" id="laundryName"></h3>
+                <p id="laundryEmail"></p>
+                <p id="laundryPhone"></p> -->
+                <h3 class="mt-3" id="laundryName">{{ admin_data.namaLaundry }}</h3>
+                <p id="laundryEmail">{{ admin_data.email }}</p>
+                <p id="laundryPhone">{{ admin_data.notelp }}</p>
+                <p class="mt-2"><button class="link-color no-border" data-toggle="modal"
+                        data-target="#editProfileModal">Ubah</button></p>
+
+                <!-- Toggle Button -->
+                <h5 class="card-title mt-4">Status Operasional</h5>
+                <div id="toggle-container" class="justify-content-center align-items-center status-container"
+                    style="display: none;">
+
+                    <span class="status-indicator mr-2 ml-3 status-open"></span>
+                    <span class="status-text mr-2">Buka</span>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle no-border" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            onclick="this.parentElement.parentElement.classList.toggle('active');">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" onclick="changeStatus('Buka')">Buka</a>
+                            <a class="dropdown-item" onclick="changeStatus('Tutup')">Tutup</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="substitutional-text" style="display: none;">
+                    Silahkan lengkapi profil untuk membuka toko
+                </div>
+
+            </div>
+        </div>
+        <div class="row mt-4">
+
+            <!-- Alamat -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-flex-start">
+                            <div>
+                                <h5 class="card-title">Alamat</h5>
+                            </div>
+                            <div>
+                                <a href="#" id="editAddAddressLink" class="ubah-link" data-toggle="modal"
+                                    data-target="#addAddressModal" onclick="handleAddressModalOpen(this)">
+                                    {% if address_complete %}
+                                    Ubah
+                                    {% else %}
+                                    Tambah
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <!-- <p class="card-text" id="addressData">No address data available.</p> -->
+                        <p class="card-text" id="addressData">
+                            {% if address_complete %}
+                            {{ admin_data.alamat }}, {{ admin_data.kelurahan }}, {{ admin_data.kecamatan }}, Pekanbaru,
+                            Riau, {{ admin_data.kodePos }} <br> <br>
+                            Catatan: {{ admin_data.detailAlamat if admin_data.detailAlamat else '-' }}
+                            {% else %}
+                            No address data available.
+                            {% endif %}
+                        </p>
+                        {% if address_complete %}
+                        <a href="#" class="card-link" id="viewMapLink" data-toggle="modal"
+                            data-target="#viewMapModal">Lihat Peta</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pembayaran -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-flex-start">
+                            <h5 class="card-title">Metode Pembayaran</h5>
+                            <a href="#" class="ubah-link" data-toggle="modal" data-target="#addPaymentModal">Tambah</a>
+                        </div>
+                        <!-- <div class="card-body"> -->
+                        {% for user in users %}
+                        <div class="card-text payment-method" id="payment-method-{{ user['idPembayaran'] }}">
+
+                            <div class="payment-details" id="payment-details-{{ user['idPembayaran'] }}">
+                                <!-- Display the payment method name -->
+                                <b>{{ user['namaBank'] if user['namaBank'] else ('QRIS' if user['qrisImg'] else
+                                    'Tunai')
+                                    }}</b><br>
+                                <!-- Conditionally display account number or QRIS image if available -->
+                                {% if user['noRekBank'] %}
+                                Account #: {{ user['noRekBank'] }}<br>
+                                {% elif user['qrisImg'] %}
+                                <img src="{{ user['qrisImg'] }}" alt="QRIS Code" style="width: 100px;"><br>
+                                {% endif %}
+                                <!-- Display any notes associated with the payment method -->
+                                {{ user['catatan'] }}
+                            </div>
+                            <div class="payment-actions">
+                                <a href="#" class="ubah-link" data-toggle="modal" data-target="#editPaymentModal"
+                                    data-paymentmethod="{{ user['paymentMethod'] }}"
+                                    data-namabank="{{ user['namaBank'] }}" data-accountnumber="{{ user['noRekBank'] }}"
+                                    data-qrisimg="{{ user['qrisImg'] }}" data-notes="{{ user['catatan'] }}"
+                                    data-idpembayaran="{{ user['idPembayaran'] }}"
+                                    data-emaillaundry="{{ user['emailLaundry'] }}"
+                                    data-newpaymentmethod="${data.pembayaran.paymentMethod}"
+                                    data-newnamabank="${data.pembayaran.namaBank}"
+                                    data-newaccountnumber="${data.pembayaran.noRekBank}"
+                                    data-newqrisimg="${data.pembayaran.qrisImg}"
+                                    data-newnotes="${data.pembayaran.catatan}"
+                                    data-newidpembayaran="${data.pembayaran.idPembayaran}"
+                                    data-newemaillaundry="${data.pembayaran.emailLaundry}"
+                                    onclick="setupEditPaymentModal(this);">Ubah</a>
+                                <a href="#" class="ubah-link hapus-link">Hapus</a>
+                            </div>
+                        </div>
+                        <hr class="divider">
+                        {% endfor %}
+                        {% if users|length == 0 %}
+                        <p class="card-text">No payment method data available.</p>
+                        {% endif %}
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jam Operasional -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-flex-start">
+                            <h5 class="card-title">Jam Operasional</h5>
+                            <!-- <a href="#" class="ubah-link" data-toggle="modal" data-target="#addHoursModal" onclick="handleModalOpen(this)"> -->
+                            <a href="#" id="editAddLink" class="ubah-link" data-toggle="modal"
+                                data-target="#addHoursModal" onclick="handleModalOpen(this)">
+                                {% if Days is defined and Days|length > 0 %}
+                                Ubah
+                                {% else %}
+                                Tambah
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                {% if Days is defined and Days|length > 0 %}
+                                {% for day in Days %}
+                                <div class="row">
+                                    <div class="col-4 no-padding-right">{{ day.name }}</div>
+                                    <div class="col-8">{{ 'Tutup' if day.tutup else day.jamBuka ~ ' - ' ~ day.jamTutup
+                                        }}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <p class="card-text">No operational hours data available.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="row mt-4">
+            <div class="col text-right">
+                <a href="/admin/logout" class="btn btn-outline-danger">Keluar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 LaundryLab. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal for Alamat -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAddressModalLabel"><strong>Tambah Alamat</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addressForm">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div id="map" style="width: 100%; height: 200px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressInput"><strong>Alamat</strong></label>
+                            <input type="text" class="form-control" id="addressInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kelurahanInput"><strong>Kelurahan</strong></label>
+                            <input type="text" class="form-control" id="kelurahanInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kecamatanInput"><strong>Kecamatan</strong></label>
+                            <input type="text" class="form-control" id="kecamatanInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kodeposInput"><strong>Kodepos</strong></label>
+                            <input type="text" class="form-control" id="kodeposInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="detailAlamatInput"><strong>Detail Alamat</strong></label>
+                            <textarea class="form-control" id="detailAlamatInput" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <small id="formAlert" class="form-text text-danger" style="display: none;">
+                                Please fill in all required fields.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-custom-primary custom-save-button"
+                            onclick="validateAndSaveAddress()">Simpan</button>
+                        <!-- <button type="submit" class="btn btn-custom-primary custom-save-button">Simpan</button> -->
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing Map -->
+    <div class="modal fade" id="viewMapModal" tabindex="-1" role="dialog" aria-labelledby="viewMapModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewMapModalLabel"><strong>Lihat Peta</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="mapView" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel"><strong>Ubah Profil</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="laundryName"><strong>Nama Laundry</strong></label>
+                            <input type="text" class="form-control" id="laundryName" value="Plaza Laundry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileEmail"><strong>Email</strong></label>
+                            <input type="email" class="form-control" id="profileEmail" value="plazalaundry@gmail.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePhone"><strong>Nomor Telepon</strong></label>
+                            <input type="tel" class="form-control" id="profilePhone" value="0761-27330" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePicture"><strong>Foto Profil</strong></label>
+                            <input type="file" class="form-control-file" id="profilePicture" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom-secondary custom-border"
+                        data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-custom-primary custom-save-button">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Payment Methods -->
+    <div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog" aria-labelledby="addPaymentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPaymentModalLabel"><strong>Tambah Metode Pembayaran</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPaymentForm">
+                        <div class="form-group">
+                            <label for="newPaymentType"><strong>Jenis Pembayaran</strong></label>
+                            <!-- <label for="paymentType"><strong>Jenis Pembayaran</strong></label> -->
+                            <select class="form-control" id="newPaymentType" onchange="changeNewPaymentType()">
+                                <!-- <select class="form-control" id="paymentType" onchange="changePaymentType()"> -->
+                                <option value="" disabled selected>Pilih Jenis Pembayaran</option>
+                                <option value="transfer">Transfer Bank</option>
+                                <option value="qris">QRIS</option>
+                                <option value="tunai">Tunai</option>
+                            </select>
+                        </div>
+                        <div id="newPaymentDetails"></div>
+                        <!-- <div id="paymentDetails"></div> -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom-secondary custom-border"
+                        data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-custom-primary custom-save-button"
+                        onclick="addPaymentChanges()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Payment Methods -->
+    <div class="modal fade" id="editPaymentModal" tabindex="-1" role="dialog" aria-labelledby="editPaymentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editPaymentModalLabel"><strong>Ubah Metode Pembayaran</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="paymentForm">
+                        <div class="form-group">
+                            <label for="paymentType"><strong>Jenis Pembayaran</strong></label>
+                            <select class="form-control" id="paymentType" onchange="changePaymentType()">
+                                <option value="" disabled selected>Pilih Jenis Pembayaran</option>
+                                <option value="transfer">Transfer Bank</option>
+                                <option value="qris">QRIS</option>
+                                <option value="tunai">Tunai</option>
+                            </select>
+                        </div>
+                        <div id="paymentDetails"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom-secondary custom-border"
+                        data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-custom-primary custom-save-button"
+                        onclick="savePaymentChanges()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding Operational Hours -->
+    <div class="modal fade" id="addHoursModal" tabindex="-1" role="dialog" aria-labelledby="addHoursModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addHoursModalLabel"><strong>Tambah Jam Operasional</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addHoursForm" onsubmit="return validateHoursForm()">
+
+                    <div class="modal-body">
+                        <!-- Your existing form fields -->
+                        <div class="form-group row align-items-center">
+                            <label for="mondayHours" class="col-form-label col-12 col-sm-2">Senin</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="mondayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="mondayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="mondayClosed"
+                                        onchange="toggleDay('Monday')">
+                                    <label class="custom-control-label" for="mondayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="tuesdayHours" class="col-form-label col-12 col-sm-2">Selasa</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="tuesdayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="tuesdayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tuesdayClosed"
+                                        onchange="toggleDay('Tuesday')">
+                                    <label class="custom-control-label" for="tuesdayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="wednesdayClosed" class="col-form-label col-12 col-sm-2">Rabu</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="wednesdayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="wednesdayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="wednesdayClosed"
+                                        onchange="toggleDay('Wednesday')">
+                                    <label class="custom-control-label" for="wednesdayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="thursdayHours" class="col-form-label col-12 col-sm-2">Kamis</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="thursdayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="thursdayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="thursdayClosed"
+                                        onchange="toggleDay('Thursday')">
+                                    <label class="custom-control-label" for="thursdayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="fridayHours" class="col-form-label col-12 col-sm-2">Jumat</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="fridayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="fridayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="fridayClosed"
+                                        onchange="toggleDay('Friday')">
+                                    <label class="custom-control-label" for="fridayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="saturdayHours" class="col-form-label col-12 col-sm-2">Sabtu</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="saturdayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="saturdayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="saturdayClosed"
+                                        onchange="toggleDay('Saturday')">
+                                    <label class="custom-control-label" for="saturdayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label for="sundayHours" class="col-form-label col-12 col-sm-2">Minggu</label>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="sundayStart" placeholder="Start Time">
+                            </div>
+                            <div class="col-4 col-sm-3">
+                                <input type="time" class="form-control" id="sundayEnd" placeholder="End Time">
+                            </div>
+                            <div class="col-4 col-sm-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="sundayClosed"
+                                        onchange="toggleDay('Sunday')">
+                                    <label class="custom-control-label" for="sundayClosed">Tutup</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add the alert message element -->
+                        <div class="col-12">
+                            <small id="formAlert" class="form-text text-danger" style="display: none;">Please fill in
+                                the hours or check "Tutup" for all days.</small>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <!-- <button type="button" class="btn btn-custom-primary custom-save-button" onclick="addHours()">Simpan</button> -->
+                        <button type="submit" class="btn btn-custom-primary custom-save-button">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // ALAMAT
+        function handleAddressModalOpen(element) {
+            const addressLinkText = element.textContent.trim();
+            if (addressLinkText === 'Ubah') {
+                openModalForEditAddress();
+
+            } else {
+                console.log('ini tambah')
+                openModalForAddAddress();
+            }
+        }
+
+        function openModalForEditAddress() {
+            const adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+            const url = `https://laundrylab.pocari.id//getAdminEmail/${adminEmail}`;
+
+            // Change the modal header
+            // document.getElementById('addAddressModalLabel').innerText = 'Ubah Alamat';
+            const modalLabel = document.getElementById('addAddressModalLabel');
+            modalLabel.innerHTML = '<strong>Ubah Alamat</strong>';
+
+            // Fetch the existing address data
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const addressData = data.admin;
+                        // Populate the input fields with the existing address data
+                        document.getElementById('addressInput').value = addressData.alamat || '';
+                        document.getElementById('kelurahanInput').value = addressData.kelurahan || '';
+                        document.getElementById('kecamatanInput').value = addressData.kecamatan || '';
+                        document.getElementById('kodeposInput').value = addressData.kodePos || '';
+                        document.getElementById('detailAlamatInput').value = addressData.detailAlamat || '';
+
+                        // Set the map center and marker position
+                        const latitude = addressData.latitudeLaundry;
+                        const longitude = addressData.longitudeLaundry;
+                        if (latitude && longitude) {
+                            map.setCenter([longitude, latitude]);
+                            // marker.setLngLat([longitude, latitude]).addTo(map);
+                            mainMarker.setLngLat([longitude, latitude]).addTo(map);
+                        }
+                    } else {
+                        console.error('Failed to fetch address data:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error fetching address data:', error));
+
+            // Show the modal
+            $('#addAddressModal').modal('show');
+        }
+
+        function openModalForAddAddress() {
+            // Logic to open the modal for adding a new address
+            $('#addAddressModal').modal('show');
+        }
+
+        function validateAndSaveAddress() {
+            const address = document.getElementById('addressInput').value.trim();
+            const kelurahan = document.getElementById('kelurahanInput').value.trim();
+            const kecamatan = document.getElementById('kecamatanInput').value.trim();
+            const kodepos = document.getElementById('kodeposInput').value.trim();
+            const detailAlamat = document.getElementById('detailAlamatInput').value.trim();
+            const alertElement = document.getElementById('formAlert');
+
+            if (!address || !kelurahan || !kecamatan || !kodepos) {
+                alertElement.style.display = 'block';
+            } else {
+                alertElement.style.display = 'none';
+                saveAddressChanges();
+            }
+        }
+
+        function saveAddressChanges() {
+            const address = document.getElementById('addressInput').value;
+            const kelurahan = document.getElementById('kelurahanInput').value;
+            const kecamatan = document.getElementById('kecamatanInput').value;
+            const kodepos = document.getElementById('kodeposInput').value;
+            const detailAlamat = document.getElementById('detailAlamatInput').value;
+            const markerPosition = getMarkerCoordinates();
+            const adminId = sessionStorage.getItem('admin_id'); // Ensure you have set this somewhere
+
+            const formData = new FormData();
+            formData.append('alamat', address);
+            formData.append('detailAlamat', detailAlamat);
+            formData.append('kelurahan', kelurahan);
+            formData.append('kecamatan', kecamatan);
+            formData.append('kodePos', kodepos);
+            formData.append('latitudeLaundry', markerPosition.latitude);
+            formData.append('longitudeLaundry', markerPosition.longitude);
+
+            fetch(`https://laundrylab.pocari.id/adminRegisterById/${adminId}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Address saved successfully:', data);
+                        $('#addAddressModal').modal('hide');
+                        location.reload()
+                    } else {
+                        console.error('Failed to save address:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error saving address:', error));
+        }
+
+
+
+
+
+
+        // MAP
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmVyZW5mYXNlbGxhcGNyIiwiYSI6ImNsZmdqY3A0cjBuMTMzeHBhbWR4bWU4bWcifQ.qiVGsGvSFknQtRriOutdGA';
+
+        // Initialize the map
+        var map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+            center: [101.42605398075054, 0.5712004937845387], // Starting position [lng, lat]
+            zoom: 12 // Starting zoom level
+        });
+
+        // Add navigation controls to the map
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Add a marker to the map at the center
+        var mainMarker = new mapboxgl.Marker({
+            draggable: true
+        })
+            .setLngLat(map.getCenter()) // Set marker at the center of the map
+            .addTo(map);
+
+        // Update marker position when the map is moved
+        map.on('move', function () {
+            mainMarker.setLngLat(map.getCenter());
+        });
+
+        // Function to get the marker's coordinates
+        function getMarkerCoordinates() {
+            var lngLat = mainMarker.getLngLat();
+            return { longitude: lngLat.lng, latitude: lngLat.lat };
+        }
+
+        //lihat map 
+        let mapView;
+        let modalMarker;
+
+        function initializeMapView(longitude, latitude) {
+            mapView = new mapboxgl.Map({
+                container: 'mapView', // Container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+                center: [longitude, latitude], // Starting position [lng, lat]
+                zoom: 12 // Starting zoom level
+            });
+
+            // Add navigation controls to the map
+            mapView.addControl(new mapboxgl.NavigationControl());
+
+            // Add a marker to the map
+            modalMarker = new mapboxgl.Marker({
+                draggable: false
+            }).setLngLat([longitude, latitude]).addTo(mapView);
+        }
+
+        const viewMapLink = document.getElementById('viewMapLink');
+        if (viewMapLink) {
+            viewMapLink.addEventListener('click', function (event) {
+                event.preventDefault();
+                const adminEmail = sessionStorage.getItem('admin_email'); // Ensure you have set this somewhere
+                const url = `https://laundrylab.pocari.id/getAdminEmail/${adminEmail}`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const addressData = data.admin;
+                            const latitude = addressData.latitudeLaundry;
+                            const longitude = addressData.longitudeLaundry;
+                            if (latitude && longitude) {
+                                $('#viewMapModal').modal('show');
+                                setTimeout(() => initializeMapView(longitude, latitude), 500); // Delay to ensure the modal is fully shown before initializing the map
+                            } else {
+                                console.error('Coordinates not found in the response');
+                                alert('Coordinates not found for this address.');
+                            }
+                        } else {
+                            console.error('Failed to fetch address data:', data.error);
+                            alert('Failed to fetch address data.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching address data:', error);
+                        alert('Error fetching address data.');
+                    });
+            });
+        } else {
+            console.warn('viewMapLink element not found.');
+        }
+
+        // Jam Operasional
+        function toggleDay(day) {
+            const startInput = document.getElementById(day.toLowerCase() + 'Start');
+            const endInput = document.getElementById(day.toLowerCase() + 'End');
+            const isClosed = document.getElementById(day.toLowerCase() + 'Closed').checked;
+
+            startInput.disabled = isClosed;
+            endInput.disabled = isClosed;
+
+            if (isClosed) {
+                startInput.value = '';
+                endInput.value = '';
+            }
+        }
+
+        function validateHoursForm() {
+            const days = [
+                { day: 'Monday', startId: 'mondayStart', endId: 'mondayEnd', closedId: 'mondayClosed' },
+                { day: 'Tuesday', startId: 'tuesdayStart', endId: 'tuesdayEnd', closedId: 'tuesdayClosed' },
+                { day: 'Wednesday', startId: 'wednesdayStart', endId: 'wednesdayEnd', closedId: 'wednesdayClosed' },
+                { day: 'Thursday', startId: 'thursdayStart', endId: 'thursdayEnd', closedId: 'thursdayClosed' },
+                { day: 'Friday', startId: 'fridayStart', endId: 'fridayEnd', closedId: 'fridayClosed' },
+                { day: 'Saturday', startId: 'saturdayStart', endId: 'saturdayEnd', closedId: 'saturdayClosed' },
+                { day: 'Sunday', startId: 'sundayStart', endId: 'sundayEnd', closedId: 'sundayClosed' }
+            ];
+
+            let isValid = true;
+
+            days.forEach(day => {
+                const startInput = document.getElementById(day.startId);
+                const endInput = document.getElementById(day.endId);
+                const closedCheckbox = document.getElementById(day.closedId);
+
+                // console.log(startInput.value);
+                // console.log(endInput.value);
+                if (!closedCheckbox.checked && (!startInput.value || !endInput.value)) {
+                    isValid = false;
+                }
+            });
+
+            const alertElement = document.getElementById('formAlert');
+            if (!isValid) {
+                alertElement.style.display = 'block';
+            } else {
+                alertElement.style.display = 'none';
+                addHours(); // Call addHours() if the form is valid
+            }
+
+            return isValid;
+        }
+
+        function addHours() {
+            const days = [
+                { day: 'Senin', startId: 'mondayStart', endId: 'mondayEnd', closedId: 'mondayClosed' },
+                { day: 'Selasa', startId: 'tuesdayStart', endId: 'tuesdayEnd', closedId: 'tuesdayClosed' },
+                { day: 'Rabu', startId: 'wednesdayStart', endId: 'wednesdayEnd', closedId: 'wednesdayClosed' },
+                { day: 'Kamis', startId: 'thursdayStart', endId: 'thursdayEnd', closedId: 'thursdayClosed' },
+                { day: 'Jumat', startId: 'fridayStart', endId: 'fridayEnd', closedId: 'fridayClosed' },
+                { day: 'Sabtu', startId: 'saturdayStart', endId: 'saturdayEnd', closedId: 'saturdayClosed' },
+                { day: 'Minggu', startId: 'sundayStart', endId: 'sundayEnd', closedId: 'sundayClosed' }
+            ];
+
+            const operationalHours = days.map(day => ({
+                name: day.day,
+                jamBuka: document.getElementById(day.startId).value,
+                jamTutup: document.getElementById(day.endId).value,
+                tutup: document.getElementById(day.closedId).checked
+            }));
+
+
+            const formData = new FormData();
+            formData.append('days', JSON.stringify(operationalHours)); // Convert array to JSON string
+
+            // Debugging: Display the data to be sent
+            // console.log("Sending data:", JSON.stringify({ days: operationalHours }));
+
+            // Debugging: Display each day's data and data type
+            // operationalHours.forEach(day => {
+            //     console.log(`Day: ${day.name}`);
+            //     console.log(`Opening Time: ${day.jamBuka} (Type: ${typeof day.jamBuka})`);
+            //     console.log(`Closing Time: ${day.jamTutup} (Type: ${typeof day.jamTutup})`);
+            //     console.log(`Closed: ${day.tutup} (Type: ${typeof day.tutup})`);
+            // });
+
+
+            const adminId = sessionStorage.getItem('admin_id'); // Ensure you have set this somewhere
+            const url = `https://laundrylab.pocari.id/adminRegisterByIdJam/${adminId}`;
+
+            fetch(url, {
+                method: 'PUT',
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // },
+                // body: JSON.stringify({ days: operationalHours }) // Only sending the days array
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    if (data.success) {
+                        $('#addHoursModal').modal('hide');
+                        location.reload()
+                    } else {
+                        console.error('Server error:', data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function openModalForEdit() {
+            // document.getElementById('addHoursModalLabel').innerText = 'Ubah Jam Operasional';
+            const modalLabel = document.getElementById('addHoursModalLabel');
+            modalLabel.innerHTML = '<strong>Ubah Jam Operasional</strong>';
+
+            const days = [
+                { day: 'Monday', startId: 'mondayStart', endId: 'mondayEnd', closedId: 'mondayClosed' },
+                { day: 'Tuesday', startId: 'tuesdayStart', endId: 'tuesdayEnd', closedId: 'tuesdayClosed' },
+                { day: 'Wednesday', startId: 'wednesdayStart', endId: 'wednesdayEnd', closedId: 'wednesdayClosed' },
+                { day: 'Thursday', startId: 'thursdayStart', endId: 'thursdayEnd', closedId: 'thursdayClosed' },
+                { day: 'Friday', startId: 'fridayStart', endId: 'fridayEnd', closedId: 'fridayClosed' },
+                { day: 'Saturday', startId: 'saturdayStart', endId: 'saturdayEnd', closedId: 'saturdayClosed' },
+                { day: 'Sunday', startId: 'sundayStart', endId: 'sundayEnd', closedId: 'sundayClosed' }
+            ];
+
+            console.log(days)
+            console.log(typeof days)
+
+            // Fetch existing data and populate the form
+            // const adminId = sessionStorage.getItem('admin_id'); // Ensure you have set this somewhere
+            const userEmail = sessionStorage.getItem('user_email');
+            const url = `https://laundrylab.pocari.id/getAdminEmail/${userEmail}`;
+
+            // console.log('ini admin id' + userEmail);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const adminData = data.admin;
+                        const daysData = adminData.days;
+                        days.forEach((day, index) => {
+                            day.jamBuka = daysData[index].jamBuka;
+                            day.jamTutup = daysData[index].jamTutup;
+                            day.tutup = daysData[index].tutup;
+                        });
+                        populateFormForEdit(days);
+                    } else {
+                        console.error('Server error:', data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+
+
+
+            $('#addHoursModal').modal('show');
+        }
+
+        function populateFormForEdit(days) {
+            // days.forEach(day => {
+            //     document.getElementById(day.startId).value = day.jamBuka;
+            //     document.getElementById(day.endId).value = day.jamTutup;
+            //     document.getElementById(day.closedId).checked = day.tutup;
+            // });
+
+            days.forEach(day => {
+                // console.log('Populating form for day:', day);
+                const startInput = document.getElementById(day.startId);
+                const endInput = document.getElementById(day.endId);
+                const closedCheckbox = document.getElementById(day.closedId);
+
+                if (!startInput || !endInput || !closedCheckbox) {
+                    console.error('Input elements not found for day:', day.day);
+                    return;
+                }
+
+                startInput.value = day.jamBuka;
+                endInput.value = day.jamTutup;
+                closedCheckbox.checked = day.tutup;
+
+                // Call toggleDay to set the disabled state based on the checkbox
+                toggleDay(day.day);
+            });
+        }
+
+        function openModalForAdd() {
+            // document.getElementById('addHoursModalLabel').innerText = 'Tambah Jam Operasional';
+            const modalLabel = document.getElementById('addHoursModalLabel');
+            modalLabel.innerHTML = '<strong>Tambah Jam Operasional</strong>';
+            document.getElementById('addHoursForm').reset();
+            $('#addHoursModal').modal('show');
+        }
+
+        function handleModalOpen(element) {
+            const days = window.operationalDays || []; // Use the globally stored days data
+            const daysExist = days.length > 0;
+            // const days = []; // Replace this with the actual logic to fetch Days data
+            // const daysExist = days.length > 0;
+
+            if (daysExist) {
+                openModalForEdit();
+            } else {
+                openModalForAdd();
+            }
+        }
+
+        // PEMBAYARAN
+        function setupEditPaymentModal(element) {
+            const modalElement = document.getElementById('editPaymentModal');
+            const paymentMethod = element.getAttribute('data-paymentmethod');
+            const bankName = element.getAttribute('data-namabank');
+            const accountNumber = element.getAttribute('data-accountnumber');
+            const qrisImg = element.getAttribute('data-qrisimg');
+            const notes = element.getAttribute('data-notes');
+            const idPembayaran = element.getAttribute('data-idpembayaran');
+            const emailLaundry = element.getAttribute('data-emaillaundry');
+
+            const newPaymentMethod = element.getAttribute('data-newpaymentmethod');
+            const newBankName = element.getAttribute('data-newnamabank');
+            const newAccountNumber = element.getAttribute('data-newaccountnumber');
+            const newQrisImg = element.getAttribute('data-newqrisimg');
+            const newNotes = element.getAttribute('data-newnotes');
+
+            // Use the newPaymentMethod value as needed, for example:
+            console.log('New Payment Method:', newPaymentMethod);
+            console.log('Payment Method:', paymentMethod);
+
+            // Set data attributes on the modal element
+            modalElement.setAttribute('data-idpembayaran', idPembayaran);
+            modalElement.setAttribute('data-emaillaundry', emailLaundry);
+            // Map the database value to the dropdown display value
+            const paymentTypeDropdownValue = paymentMethod === 'bank' ? 'transfer' : paymentMethod;
+
+            // console.log("Payment Method:", paymentMethod);
+            // Set the payment type in the dropdown
+            document.getElementById('paymentType').value = paymentTypeDropdownValue;
+            changePaymentType(); // Call to update the input fields
+
+            // Depending on the payment type, fill in the details
+            if (paymentMethod === 'bank') {
+                document.getElementById('bankName').value = bankName; // Correctly assign bank name
+                document.getElementById('accountNumber').value = accountNumber; // Correctly assign account number
+                document.getElementById('notes').value = notes;
+            } else if (paymentMethod === 'qris') {
+                document.getElementById('qrisImage').src = qrisImg; // Assuming you have an <img> tag to display QRIS
+                document.getElementById('notes').value = notes;
+            } else if (paymentMethod === 'tunai') {
+                document.getElementById('notes').value = notes;
+            }
+        }
+
+        function changePaymentType() {
+            const paymentType = document.getElementById('paymentType').value;
+            const paymentDetails = document.getElementById('paymentDetails');
+            paymentDetails.innerHTML = '';
+
+            if (paymentType === 'transfer') {
+                paymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="bankName">Nama Bank</label>
+                    <input type="text" class="form-control" id="bankName">
+                </div>
+                <div class="form-group">
+                    <label for="accountNumber">Nomor Rekening</label>
+                    <input type="text" class="form-control" id="accountNumber">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Catatan</label>
+                    <textarea class="form-control" id="notes"></textarea>
+                </div>
+            `;
+            } else if (paymentType === 'qris') {
+                paymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="qrisImage">Upload QRIS Image</label>
+                    <input type="file" class="form-control-file" id="qrisImage">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Catatan</label>
+                    <textarea class="form-control" id="notes"></textarea>
+                </div>
+            `;
+            } else if (paymentType === 'tunai') {
+                paymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="notes">Catatan</label>
+                    <textarea class="form-control" id="notes"></textarea>
+                </div>
+            `;
+            }
+        }
+
+        function savePaymentChanges() {
+            const formData = new FormData();
+            const paymentType = document.getElementById('paymentType').value;
+            formData.append('paymentMethod', paymentType);
+            formData.append('catatan', document.getElementById('notes').value);
+
+            if (paymentType === 'transfer') {
+                formData.append('namaBank', document.getElementById('bankName').value);
+                formData.append('noRekBank', document.getElementById('accountNumber').value);
+            } else if (paymentType === 'qris') {
+                formData.append('qrisImg', document.getElementById('qrisImage').files[0]);
+            }
+
+            const modalElement = document.getElementById('editPaymentModal');
+            const idPembayaran = modalElement.getAttribute('data-idpembayaran');
+            const emailLaundry = modalElement.getAttribute('data-emaillaundry');
+
+            formData.append('idPembayaran', idPembayaran);
+            formData.append('emailLaundry', emailLaundry);
+
+
+
+            const url = `https://laundrylab.pocari.id/editPaymentMethod/${idPembayaran}/${emailLaundry}`;
+
+            fetch(url, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // console.log('Response data:', data);
+                    if (data.success) {
+                        console.log('Payment method updated successfully');
+                        $('#editPaymentModal').modal('hide');
+                        location.reload()
+                        // fetchUpdatedPaymentDetails(emailLaundry, idPembayaran, paymentType);
+                    } else {
+                        console.error('Failed to update payment method:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error updating payment method:', error));
+        }
+
+        // function fetchUpdatedPaymentDetails(emailLaundry, idPembayaran, paymentType) {
+        //     const url = `https://laundrylab.pocari.id/getPembayaranId/${idPembayaran}/${emailLaundry}`;
+
+        //     fetch(url)
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             // console.log("Tampilin fetch update data:", data);  // Log the entire data object to inspect its structure
+        //             if (data.success) {
+        //                 updatePaymentDetailsOnPage(data, idPembayaran, paymentType);
+        //             } else {
+        //                 console.error('Failed to fetch updated payment details:', data.error);
+        //             }
+        //         })
+        //         .catch(error => console.error('Error fetching updated payment details:', error));
+        // }
+
+        // function updatePaymentDetailsOnPage(data, idPembayaran, paymentType) {
+        //     // const paymentContainer = document.getElementById('payment-method-' + idPembayaran);
+        //     const paymentContainer = document.getElementById('payment-details-' + idPembayaran);
+        //     paymentContainer.innerHTML = '';
+
+        //     if (!data) {
+        //         console.error('Data is not available');
+        //         return;
+        //     }
+
+        //     let paymentDetailsHTML = '';
+
+        //     switch (paymentType) {
+        //         case 'transfer':
+        //             if (data.pembayaran.namaBank && data.pembayaran.noRekBank && data.pembayaran.catatan) {
+        //                 paymentDetailsHTML = `
+        //                     <b>${data.pembayaran.namaBank}</b><br>
+        //                     Account #: ${data.pembayaran.noRekBank}<br>
+        //                     ${data.pembayaran.catatan}
+        //             `;
+        //             } else {
+        //                 console.error("Transfer data is undefined");
+        //             }
+        //             break;
+        //         case 'qris':
+        //             if (data.pembayaran.qrisImg && data.pembayaran.catatan) {
+        //                 paymentDetailsHTML = `
+        //                     <b>QRIS</b><br>
+        //                     <img src="${data.pembayaran.qrisImg}" alt="QRIS Code" style="width: 100px;"><br>
+        //                     ${data.pembayaran.catatan}
+        //             `;
+        //             } else {
+        //                 console.error("QRIS data is undefined");
+        //             }
+        //             break;
+        //         case 'tunai':
+        //             if (data.pembayaran.catatan) {
+        //                 paymentDetailsHTML = `
+        //                     <b>Tunai</b><br>
+        //                     ${data.pembayaran.catatan}
+        //             `;
+        //             } else {
+        //                 console.error("Cash data is undefined");
+        //             }
+        //             break;
+        //         default:
+        //             console.error("Unknown payment type:", paymentType);
+        //             paymentDetailsHTML = '<div>Unknown Payment Method</div>';
+        //     }
+        //     paymentContainer.innerHTML = paymentDetailsHTML;
+        // }
+
+
+        function changeNewPaymentType() {
+            const newPaymentType = document.getElementById('newPaymentType').value;
+            const newPaymentDetails = document.getElementById('newPaymentDetails');
+            newPaymentDetails.innerHTML = '';
+
+            if (newPaymentType === 'transfer') {
+                newPaymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="newBankName">Nama Bank</label>
+                    <input type="text" class="form-control" id="newBankName">
+                </div>
+                <div class="form-group">
+                    <label for="newAccountNumber">Nomor Rekening</label>
+                    <input type="text" class="form-control" id="newAccountNumber">
+                </div>
+                <div class="form-group">
+                    <label for="newNotes">Catatan</label>
+                    <textarea class="form-control" id="newNotes"></textarea>
+                </div>
+                `;
+            } else if (newPaymentType === 'qris') {
+                newPaymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="newQrisImage">Upload QRIS Image</label>
+                    <input type="file" class="form-control-file" id="newQrisImage">
+                </div>
+                <div class="form-group">
+                    <label for="newNotes">Catatan</label>
+                    <textarea class="form-control" id="newNotes"></textarea>
+                </div>
+                `;
+            } else if (newPaymentType === 'tunai') {
+                newPaymentDetails.innerHTML = `
+                <div class="form-group">
+                    <label for="newNotes">Catatan</label>
+                    <textarea class="form-control" id="newNotes"></textarea>
+                </div>
+                `;
+            }
+        }
+
+        function addPaymentChanges() {
+            // Create a new FormData object
+            const formData = new FormData();
+            const paymentType = document.getElementById('newPaymentType').value;
+            const emailLaundry = sessionStorage.getItem('admin_email') || localStorage.getItem('admin_email');
+            // const upload_path = 'C:\Users\feren\OneDrive\Documents\julisidang\LaundryLab\static\uploads';
+            //let upload_path = 'C:\Users\feren\OneDrive\Documents\julisidang\LaundryLab\static\uploads';
+            //const upload_path = 'C:/Users/feren/OneDrive/Documents/julisidang/LaundryLab/static/uploads';
+            const upload_path = '../../static/uploads';
+            // const upload_pth = ["C:", "Users", "feren", "OneDrive", "Documents", "julisidang", "LaundryLab", "static", "uploads"];
+            // const upload_path = upload_pth.join("\\");
+            // console.log(upload_path);
+
+            if (!emailLaundry) {
+                console.error('User email is not available.');
+                return; // Exit the function if no email is found
+            }
+            //     console.error('User email is not available.');
+            //     return; // Exit the function if no email is found
+            // }
+
+            // const fileInput = document.getElementById('newQrisImage');
+            // if (fileInput && fileInput.files.length === 0) {
+            //     console.error('No file selected for upload');
+            //     return; // Prevent the form from being submitted
+            // }          
+
+            // Append common data to the FormData object
+            formData.append('catatan', document.getElementById('newNotes').value);
+            formData.append('emailLaundry', emailLaundry);
+            formData.append('paymentMethod', paymentType);
+            formData.append('upload_path', upload_path);
+
+            // Conditionally append data based on the payment type
+            if (paymentType === 'transfer') {
+                formData.append('namaBank', document.getElementById('newBankName').value);
+                formData.append('noRekBank', document.getElementById('newAccountNumber').value);
+            } else if (paymentType === 'qris') {
+                formData.append('qrisImg', document.getElementById('newQrisImage').value);
+
+                // console.log("Entered QRIS block");  // Debugging line to check if this block is entered
+                // const fileInput = document.getElementById('newQrisImage');
+                // const newQrisFileName = fileInput.files[0] ? fileInput.files[0].name : null;
+
+                // Now you can send this fileName as part of a FormData object or in a JSON payload
+                // formData.append('fileName', fileName);
+
+                // const qrisImageFile = document.getElementById('newQrisImage').files[0];
+
+
+                // if (qrisImageFile) {
+                // if (fileInput.files.length > 0) {
+                //     const newQrisFileName = fileInput.files[0].name;
+                //     // formData.append('qrisImg', qrisImageFile);
+                //     formData.append('qrisImg', newQrisFileName);
+                // } else {
+                //     formData.append('qrisImg', null); // Or handle this case server-side
+                // }
+                console.log('success append');
+            }
+
+            // console.log('ini sblm fetch')
+            // for (let [key, value] of formData.entries()) {
+
+            //     console.log(key, value);
+            // }
+
+            // Fetch the current payment data to determine the next ID
+            fetch(`https://laundrylab.pocari.id/getPembayaran/${emailLaundry}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Tampilin fetch' data':", data);  // Log the entire data object to inspect its structure
+                    if (data.success && (data.users.length > 0)) {
+                        let lastId = data.users.reduce((max, user) => Math.max(max, parseInt(user.idPembayaran)), 0);
+                        console.log("Satu");
+                        return lastId + 1;
+                    } else {
+                        console.log("Dua");
+                        return 1;
+
+                    }
+                })
+                .then(newId => {
+                    formData.append('idPembayaran', newId); // Append the new incremented ID
+                    // console.log("Tampilin fetch update data newid:", newId);  // Log the entire data object to inspect its structure
+
+                    // console.log('ini stlh fetch')
+                    // for (let [key, value] of formData.entries()) {
+                    //     console.log(key, value);
+                    // }
+
+                    // Define the API URL
+                    const url = `https://laundrylab.pocari.id/addPaymentMethod/${emailLaundry}`;
+
+
+                    // Send the FormData to the server
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    })
+                        // .then(response => response.json())
+                        .then(response => {
+                            //     console.log('https Response:', response);
+                            console.log('Raw https Response:', response);
+
+                            // Optionally, you can also log the raw text of the response body
+                            response.clone().text().then(text => console.log('Raw response body:', text));
+
+                            return response.json();
+                        })
+                        .then(data => {
+                            //debug
+                            console.log("Ini dah di dalam fetch:", formData);
+                            for (let [key, value] of formData.entries()) {
+                                console.log(key, value);
+                            }
+                            //console.log('Raw https Response:', response);
+
+
+                            console.log('Response data:', data);  // Log the JSON data to see what the server returned
+
+                            // console.log('Data received from fetch:');
+                            // data.users.forEach(user => {
+                            //     console.log('User:', user);
+                            // });
+
+
+                            if (data.success && data.users) {
+                                console.log('Data received from fetch:');
+                                data.users.forEach(user => {
+                                    console.log('User:', user);
+                                });
+                            } else {
+                                console.log('No users data available or data format is incorrect');
+                            }
+
+
+                            // console.log('Success:', data);
+                            // $('#addPaymentModal').modal('hide');
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching payment data:', error);
+                });
+        }
+
+        //GENERAL 
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set the admin_email first
+            sessionStorage.setItem('admin_email', '{{ session.get("admin_email", "") }}');
+            sessionStorage.setItem('admin_id', '{{ session.get("admin_id", "") }}');
+            // console.log('Stored user_email:', sessionStorage.getItem('user_email'));
+            // console.log('Stored admin_id:', sessionStorage.getItem('admin_id'));
+
+            // Now get the admin_email from sessionStorage
+            const adminEmail = sessionStorage.getItem('admin_email');
+            if (!adminEmail) {
+                console.error('Admin email is not available.');
+                return;
+            }
+
+            console.log("Logged in Email:", adminEmail); // Check what email is being fetched
+
+            // Fetch admin data
+            // fetch('https://laundrylab.pocari.id/getAdmin')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // console.log("Admin Data fetched:", data);
+            //         if (data.success && data.users) {
+            //             const user = data.users.find(user => user.email === userEmail);
+            //             if (user) {
+            //                 document.getElementById('laundryName').textContent = user.namaLaundry || 'Default Laundry Name';
+            //                 document.getElementById('laundryEmail').textContent = user.email || 'no-email@example.com';
+            //                 document.getElementById('laundryPhone').textContent = user.notelp || 'No Phone Number';
+            //             } else {
+            //                 console.log("No user found with the logged-in email.");
+            //             }
+            //         } else {
+            //             console.log("Fetch successful but no user data or success flag.");
+            //         }
+            //     })
+            //     .catch(error => console.error('Error fetching admin data:', error));
+
+            // Fetch payment methods
+            fetch(`https://laundrylab.pocari.id/getPembayaran/${adminEmail}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Payment Data fetched:", data);
+                    // Add debug logs to inspect the structure and properties
+                    // console.log("Data object keys:", Object.keys(data));
+                    // console.log("Success flag:", data.success);
+                    // console.log("Full data object:", data);
+
+                    //undefined
+                    // console.log("Payment methods available:", data.paymentMethod);
+
+                    if (data.success && data.users) {
+                        data.users.forEach(user => {
+                            console.log("User data available:", user);
+
+                            // console.log("Payment Method for user:", user.emailLaundry);
+                            // console.log("Payment Type:", user.paymentMethod);
+                            // console.log("Bank Name:", user.namaBank);
+                            // console.log("Account Number:", user.noRekBank);
+                            // console.log("QRIS Image:", user.qrisImg);
+                            // console.log("Notes:", user.catatan);
+                        });
+                    } else {
+                        console.log("No users or payment methods available.");
+                    }
+                })
+                .catch(error => console.error('Error fetching payment data:', error));
+
+            //operational hours 
+            // Fetch the Days data from the server
+            fetch(`https://laundrylab.pocari.id/getAdminEmail/${adminEmail}`) // Replace with your actual endpoint
+                .then(response => response.json())
+                .then(data => {
+                    // const days = data.days || []; // Assuming the response has a 'days' field
+                    const days = data.admin && data.admin.days ? data.admin.days : []; // Access the nested 'days' field
+                    const daysExist = days.length > 0;
+                    // const editAddLink = document.getElementById('editAddLink');
+
+                    // console.log('ini hari' + days);
+                    // if (daysExist) {
+                    //     editAddLink.textContent = 'Ubah';
+                    // } else {
+                    //     editAddLink.textContent = 'Tambah';
+                    // }
+
+                    // Store the days data for later use
+                    window.operationalDays = days;
+                })
+                .catch(error => console.error('Error fetching operational hours:', error));
+
+
+            // fetch untuk toggle status
+            fetch(`https://laundrylab.pocari.id/getAdminEmail/${adminEmail}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const adminData = data.admin;
+                        const { alamat, days, bukaTutupLaundry } = adminData;
+                        console.log('ini fetch toggle', alamat, days, bukaTutupLaundry);
+
+                        // Fetch category data
+                        fetch(`https://laundrylab.pocari.id/getKategori/${adminEmail}`)
+                            .then(response => response.json())
+                            .then(categoryData => {
+                                if (categoryData.success) {
+                                    const categories = categoryData.categories;
+
+                                    // Check if all required fields exist
+                                    if (alamat && days && categories.length > 0) {
+                                        const toggleContainer = document.getElementById('toggle-container');
+                                        toggleContainer.style.display = 'flex';
+
+                                        console.log('bukaTutupLaundry:', bukaTutupLaundry)
+                                        if (bukaTutupLaundry === 'Buka') {
+                                            document.querySelector('.status-text').textContent = 'Buka';
+                                            document.querySelector('.status-indicator').classList.add('status-open');
+                                        } else {
+                                            document.querySelector('.status-text').textContent = 'Tutup';
+                                            document.querySelector('.status-indicator').classList.add('status-closed');
+                                        }
+                                    } else {
+                                        const substitutionalText = document.getElementById('substitutional-text');
+                                        substitutionalText.style.display = 'block';
+                                    }
+
+                                } else {
+                                    console.error('Failed to fetch category data:', categoryData.error);
+                                }
+                            })
+                            .catch(error => console.error('Error fetching category data:', error));
+                    } else {
+                        console.error('Failed to fetch admin data:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error fetching admin data:', error));
+        });
+
+
+
+        function changeStatus(status) {
+            const adminEmail = sessionStorage.getItem('admin_email');
+            if (!adminEmail) {
+                console.error('Admin email is not available.');
+                return;
+            }
+            console.log('ini status', status);
+
+            const formData = new FormData();
+            formData.append('bukaTutupLaundry', status);
+
+            fetch(`https://laundrylab.pocari.id/editAdminState/${adminEmail}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('ini data suskes', data);
+                    if (data.success) {
+                        const statusText = document.querySelector('.status-text');
+                        const statusIndicator = document.querySelector('.status-indicator');
+                        const statusContainer = document.querySelector('.status-container');
+
+                        statusText.textContent = status;
+                        if (status === 'Buka') {
+                            statusIndicator.classList.remove('status-closed');
+                            statusIndicator.classList.add('status-open');
+                            statusContainer.classList.remove('active');
+                        } else {
+                            statusIndicator.classList.remove('status-open');
+                            statusIndicator.classList.add('status-closed');
+                            statusContainer.classList.add('active');
+                        }
+                    } else {
+                        console.error('Failed to update status:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error updating status:', error));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            /* background-color: #f8f9fa; */
+            font-family: 'Montserrat';
+        }
+
+        .fixed-logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            /* Increased z-index to ensure it's above other content */
+            margin: 25px;
+        }
+
+        .fixed-logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: center;
+            /* Centers children horizontally */
+            align-items: center;
+            /* Centers children vertically */
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 1100px;
+            /* Increased from 900px */
+            width: 100%;
+            /* margin-top: 70px; */
+            /* Adjust this value as needed to prevent overlap */
+            /* z-index: 1000; */
+            padding: 20px;
+        }
+
+
+
+        .register-image {
+            width: 100%;
+            margin-right: 15%;
+        }
+
+        .register-image img {
+            width: 100%;
+            /* display: block;  */
+            /* Ensures the image is a block element to fit the container width */
+        }
+
+        .register-form {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Adds shadow to the form only */
+            border-radius: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.10000000149011612);
+            padding: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .register-form .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%
+        }
+
+        .register-form h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+        }
+
+        /* Base styles for form elements */
+        .register-form .form-control {
+            width: calc(100% - 40px);
+            /* Adjusted width to account for padding */
+            background: rgba(255, 255, 255, 1);
+            opacity: 1;
+            border: 1px solid rgba(0, 0, 0, 1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 70px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-family: 'Montserrat';
+            /* Apply Montserrat font to all form controls */
+        }
+
+        /* Button specific styling */
+        .register-form .btn {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .register-form .btn:hover {
+            background-color: #17a2b8;
+            /* Slightly darker on hover for feedback */
+        }
+
+        .register-form .login-link {
+            text-align: center;
+            margin-top: 10px;
+            color: #1A535C;
+            margin-bottom: 20px;
+        }
+
+        .register-form .login-link a {
+            color: #1A535C;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-form .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling placeholders with reduced opacity */
+        .register-form .form-control::placeholder {
+            color: rgba(0, 0, 0, 0.329);
+            font-family: 'Montserrat';
+            /* Adjust the opacity as needed */
+        }
+
+        /* Hiding placeholders on input focus */
+        .register-form .form-control:focus::placeholder {
+            color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                margin-top: 20%;
+                flex-direction: column;
+            }
+
+            .register-image {
+                width: 80%;
+                display: flex;
+                justify-content: center;
+                /* Centers children horizontally */
+                align-items: center;
+                /* Centers children vertically */
+                margin-bottom: 10%;
+                margin-right: 0;
+            }
+
+            .register-image img {
+                width: 70%;
+                height: auto;
+                justify-content: center;
+                /* Centers children horizontally */
+                align-items: center;
+                /* Centers children vertically */
+            }
+
+            .register-form {
+                width: 80%;
+            }
+
+            .register-form .form-control {
+                /* margin-left: 20px; */
+                /* Reduced margin for smaller screens */
+                margin-right: 20px;
+            }
+
+
+        }
+
+        .error-message {
+            color: red;
+            font-size: small;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="fixed-logo">
+        <img src="../../static/logotekspetugas.png" alt="Logo Tekstoko">
+    </div>
+    <div class="register-container">
+        <div class="register-image">
+            <img src="../../static/homeimage.png" alt="LaundryLab">
+        </div>
+        <div class="register-form">
+            <div class="form-container">
+                <h2>Masuk Sekarang</h2>
+                <form id="loginForm" action="/petugas/login" method="POST" style="width: 100%;">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div id="emailError" class="error-message"></div> <!-- Placeholder for email error -->
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                pattern="[^@]+@[^@]+\.[^@]+"
+                                title="Please include an '@' in the email address. e.g. example@example.com">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div id="passwordError" class="error-message"></div> <!-- Placeholder for password error -->
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Masuk</button>
+                    <div class="login-link">
+                        Hubungi admin untuk mengatur akses akun petugas
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const emailError = document.getElementById("emailError");
+            const passwordError = document.getElementById("passwordError");
+
+            // Clear previous errors
+            emailError.textContent = '';
+            passwordError.textContent = '';         
+
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+
+            fetch(`https://laundrylab.pocari.id/login`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    // console.log('validator',data.validator)
+                    if (data.success) {
+                        // console.log('Status updated successfully');
+                        if(data.validator === 'not_found') {
+                            emailError.textContent = "Email is not available.";
+                        } else if(data.validator === 'incorrect') {
+                            passwordError.textContent = "Password is incorrect.";
+                        } else if (data.validator === 'petugas') {
+                            // window.location.href = '/petugas/beranda';
+                            console.log('berhasil')
+                            document.querySelector("form").submit(); // This will submit the form as POST
+                        } 
+                        // location.reload();
+                    } else {
+                        console.error('Error updating status:', data.message);
+                    }
+                })
+                .catch(error => {
+                        console.error('Error:', error);
+                        emailError.textContent = "Failed to connect to the API.";
+                    });
+
+            // fetch(`http://laundrylab.pocari.id/editSedangDijemput/${hiddenIdPesanan}/${emailPetugas}`, { //ini kalo yg ada upload path 
+            // try {
+            //     const response = await fetch('http://laundrylab.pocari.id/getAdmin');
+            //     const adminData = await response.json();
+
+            //     // Initialize a list to store all petugas data
+            //     const allPetugasData = [];
+
+            //     // Loop through each admin and fetch their petugas data
+            //     for (const admin of adminData.users) {
+            //         const adminEmail = admin.email;
+            //         const petugasResponse = await fetch(`http://laundrylab.pocari.id/getPetugas/${adminEmail}`);
+            //         const petugasData = await petugasResponse.json();
+            //         allPetugasData.push(...petugasData.users);
+            //     }
+
+            //     // Check if the form email and password match any entry in allPetugasData
+            //     const matchedPetugas = allPetugasData.find(petugas => petugas.email_petugas === email && petugas.password_petugas === password);
+
+            //     if (!matchedPetugas) {
+            //         if (!allPetugasData.some(petugas => petugas.email_petugas === email)) {
+            //             emailError.textContent = "Email is not available.";
+            //         } else {
+            //             passwordError.textContent = "Password is incorrect.";
+            //         }
+            //     } else {
+            //         // If validation is successful, manually submit the form
+            //         document.querySelector("form").submit(); // This will submit the form as POST
+            //     }
+            // } catch (error) {
+            //     console.error('Error fetching data:', error);
+            // }
+
+        });
+
+    </script>
+</body>
+
+</html>

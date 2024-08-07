@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            /* font-weight: 600; */
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+        .status-bar {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            /* border-bottom: 1px solid #ddd; */
+        }
+
+        .status-bar a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #1A535C;
+            text-decoration: none;
+            font-weight: normal;
+            /* Ensure normal font weight by default */
+        }
+
+        .status-bar a.active {
+            border-bottom: 2px solid #1A535C;
+            font-weight: bold;
+            /* Only the active link is bold */
+        }
+
+        .order-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .order-content {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .order-details,
+        .order-dates {
+            margin-right: 20px;
+        }
+
+        .order-details h5 {
+            display: block;
+            /* Ensure the username is on its own row */
+            width: auto;
+            /* Allow the username to be longer than the container */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+            overflow: hidden;
+            /* Hide overflow text */
+            text-overflow: ellipsis;
+            /* Add ellipsis for overflow text */
+        }
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .order-status-button {
+            display: flex;
+            flex-direction: column;
+            /* align-items: flex-start; */
+            align-items: center;
+            margin-right: 20px;
+            /* Space between status/button and arrow */
+        }
+
+        .order-detail-link {
+            color: #1A535C;
+            font-size: 24px;
+        }
+
+        .order-status {
+            color: #75DBCD;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            font-size: 14px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            border-radius: 10px;
+            border: none;
+            width: 100px;
+        }
+
+        .order-card h5 {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .order-card p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .order-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+
+            .order-status-button {
+                margin-right: 0;
+                /* Remove margin between status/button and arrow */
+                align-items: center;
+                /* Center align the status and button */
+                width: 100%;
+                /* Full width to center the button */
+                justify-content: center;
+                /* Center the button horizontally */
+            }
+
+            .order-detail-link {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                /* Center vertically */
+                transform: translateY(-50%);
+                /* Adjust to exactly center */
+            }
+
+            .order-details h5 {
+                display: block;
+                /* Ensure the username is on its own row */
+                width: auto;
+                /* Allow the username to be longer than the container */
+                white-space: nowrap;
+                /* Prevent text from wrapping */
+                overflow: hidden;
+                /* Hide overflow text */
+                text-overflow: ellipsis;
+                /* Add ellipsis for overflow text */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+            }
+
+            .order-details h5 {
+                display: block;
+                /* Ensure the username is on its own row */
+                width: auto;
+                /* Allow the username to be longer than the container */
+                white-space: nowrap;
+                /* Prevent text from wrapping */
+                overflow: hidden;
+                /* Hide overflow text */
+                text-overflow: ellipsis;
+                /* Add ellipsis for overflow text */
+            }
+        }
+
+        .btn {
+            /* width: 100%; */
+            min-width: 150px;
+            /* Adjusted width */
+
+        }
+
+        /* Style for all browsers */
+        .status-bar::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        .status-bar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            /* color of the tracking area */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb {
+            background-color: #888;
+            /* color of the scroll thumb */
+            border-radius: 10px;
+            /* roundness of the scroll thumb */
+            border: 2px solid #f1f1f1;
+            /* creates padding around scroll thumb */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            /* color of the scroll thumb when hovered */
+        }
+
+        /* For browsers that support it */
+        .status-bar {
+            scrollbar-width: thin;
+            /* "auto" or "thin" */
+            scrollbar-color: #888 #f1f1f1;
+            /* thumb and track color */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logotekstoko.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/laporan">Laporan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/admin/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2 class="text-center">Daftar Pesanan</h2>
+
+        <div class="status-bar">
+            <a href="#" class="status-link active" data-status="all">Semua </a>
+            <a href="#" class="status-link" data-status="Menunggu Dikonfirmasi">Menunggu dikonfirmasi </a>
+            <a href="#" class="status-link" data-status="Menunggu Dijemput">Menunggu dijemput </a>
+            <a href="#" class="status-link" data-status="Sedang Dijemput">Sedang dijemput </a>
+            <a href="#" class="status-link" data-status="Diproses">Diproses </a>
+            <a href="#" class="status-link" data-status="Perlu diantar">Perlu diantar </a>
+            <a href="#" class="status-link" data-status="Sedang Diantar">Sedang diantar </a>
+            <a href="#" class="status-link" data-status="Selesai">Selesai </a>
+        </div>
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[0].status == "menunggu_konfirmasi" and pesanan.statusPesanan[0].active == "true" %}
+        <div class="order-card" data-status="Menunggu Dikonfirmasi">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    <h5 id="userName{{ loop.index }}">
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}
+                    </h5>
+                    <p>Waktu Pemesanan </p>
+                    <p>{{ pesanan.statusPesanan[0].tanggal }} | {{ pesanan.statusPesanan[0].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Menunggu Dikonfirmasi</span>
+                    <select class="form-control" id="petugasDropdown">
+                        <option value="" disabled selected>Set Petugas</option>
+
+                    </select>
+                    <span id="petugasMessage" style="display: none; color: red;">Set petugas terlebih dahulu.</span>
+
+                    <button class="btn" onclick="konfirmasiPesanan(this)">Konfirmasi</button>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+
+
+        {% endif %}
+        {% endfor %}
+
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[1].status == "menunggu_dijemput" and pesanan.statusPesanan[1].active == "true" %}
+        <div class="order-card" data-status="Menunggu Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <!-- <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div> -->
+                    <!-- <div id="hiddenEmailUser{{ loop.index0 }}" style="display: none;">{{pesanan.emailUser}}</div> -->
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5 id="userName">
+                        {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}
+                    </h5>
+                    <p>Waktu Dikonfirmasi</p>
+                    <p> {{ pesanan.statusPesanan[1].tanggal }} | {{ pesanan.statusPesanan[1].waktu }}
+                    </p>
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[1].status }} </p> -->
+                    <p> 
+
+                    </p>
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">
+                        Menunggu Dijemput 
+                        <br>
+                        
+                    </span>
+                    <p>oleh
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                        </p>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[2].status == "sedang_dijemput" and pesanan.statusPesanan[2].active == "true" %}
+        <div class="order-card" data-status="Sedang Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5> {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Penjemputan </p>
+                    <p>{{ pesanan.statusPesanan[2].tanggal }} | {{ pesanan.statusPesanan[2].waktu }}
+                    </p>
+
+                </div>
+                <div class="order-dates">
+                 
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Dijemput</span>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#arrivalModal">Tiba di lokasi</button> -->
+                    <p>oleh
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                        </p>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[3].status == "diproses" and pesanan.statusPesanan[3].active == "true" %}
+        <div class="order-card" data-status="Diproses">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5> {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Diproses </p>
+                    <p>{{ pesanan.statusPesanan[3].tanggal }} | {{ pesanan.statusPesanan[3].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[3].status }} </p> -->
+                    <!-- <p> Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                    </p> -->
+
+                    {% for item in pesanan.pesanan %}
+                    <p>{{ item.berat }}kg - {{ item.categoryType.replace('_', ' ').title() }} ({{ item.item }} pcs)</p>
+                    {% endfor %}
+                    <p> <b>Total Rp{{pesanan.totalBayar}} </b></p>
+                    <p>Catatan: {{pesanan.catatan}}</p>
+                    <!-- <p>bukti bayar: {{pesanan.buktiPembayaran}}</p> -->
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Diproses</span>
+                    <button class="btn" onclick="selesaiDiproses(this)">Selesai Diproses</button>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[4].status == "perlu_diantar" and pesanan.statusPesanan[4].active == "true" %}
+        <div class="order-card" data-status="Perlu diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5> {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai Diproses</p>
+                    <p> {{ pesanan.statusPesanan[4].tanggal }} | {{ pesanan.statusPesanan[4].waktu
+                        }}</p>
+
+                </div>
+                <div class="order-dates">
+                   
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Perlu diantar</span>
+                    <p>oleh
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                        </p>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#addressModal"
+                        data-purpose="antar">Antar</button>
+                    <button class="btn">Antar</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[5].status == "sedang_diantar" and pesanan.statusPesanan[5].active == "true" %}
+        <div class="order-card" data-status="Sedang Diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5> {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Antar </p>
+                    <p>{{ pesanan.statusPesanan[5].tanggal }} | {{ pesanan.statusPesanan[5].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[5].status }} </p> -->
+                    <p> Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Diantar</span>
+                    <p>oleh
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                        </p>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[6].status == "selesai" and pesanan.statusPesanan[6].active == "true" %}
+        <div class="order-card" data-status="Selesai">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+                    <div id="hiddenEmailUser" value="{{pesanan.emailUser}}" style="display: none;">{{pesanan.emailUser}}</div>
+                    <div id="hiddenIdPesanan" value="{{pesanan.idPesanan}}" style="display: none;">{{pesanan.idPesanan}}</div>
+                    
+                    <h5> {% for user in user_info %}
+                        {% if user.email == pesanan.emailUser %}
+                        {{ user.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai </p>
+                    <p>{{ pesanan.statusPesanan[6].tanggal }} | {{ pesanan.statusPesanan[6].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[6].status }} </p> -->
+                    <p> Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}
+                    </p>
+                    <!-- <p> data jenis cucian juga</p> -->
+                    <!-- <p>harga</p> -->
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Selesai</span>
+                    <p>Belum dirating</p>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#addressModal">Selesai</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <iframe id="hiddenIframe" style="display:none;"></iframe>
+
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 LaundryLab. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+        let selectedCard = null;
+
+        function konfirmasiPesanan(button) {
+            // Get the card element
+            selectedCard = button.closest('.order-card');
+            // const petugasDropdown = selectedCard.getElementById('petugasDropdown');
+            // const messageElement = selectedCard.getElementById('petugasMessage');
+            const petugasDropdown = document.getElementById('petugasDropdown');
+            const messageElement = document.getElementById('petugasMessage');
+            const hiddenIframe = document.getElementById('hiddenIframe');
+
+            if (petugasDropdown.value === "") {
+                messageElement.style.display = 'inline'; // Show the message
+            } else {
+                messageElement.style.display = 'none'; // Hide the message
+
+                // Proceed with the confirmation logic here
+                const emailPetugas = petugasDropdown.value;
+                const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+                const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }); // Format: HH:MM:SS
+                const idPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+                const emailLaundry = selectedCard.querySelector('#hiddenEmailLaundry').textContent;
+                // console.log('ini id pesanan', idPesanan);
+                // console.log('ini email laundry', emailLaundry);
+
+                const formData = new FormData();
+                formData.append('emailPetugas', emailPetugas);
+                formData.append('currentDate', currentDate);
+                formData.append('currentTime', currentTime);
+
+                fetch(`https://laundrylab.pocari.id/editKonfirmasi/${idPesanan}/${emailLaundry}`, {
+                    method: 'PUT',
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Reload the current page
+                            window.location.reload();
+
+                            // Trigger the other page reload via the hidden iframe
+                            hiddenIframe.src = '/petugas/beranda';
+                        } else {
+                            console.error('Failed to confirm pesanan');
+                        }
+                    })
+                    .catch(error => console.error('Error confirming pesanan:', error));
+
+            }
+        }
+
+        function selesaiDiproses(button) {
+            // Get the card element
+            selectedCard = button.closest('.order-card');
+
+            const hiddenIframe = document.getElementById('hiddenIframe');
+
+            // Proceed with the confirmation logic here
+            const currentDate = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
+            const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }); // Format: HH:MM:SS
+            
+            // const idPesanan = document.getElementById('hiddenIdPesanan').textContent;
+            // const emailLaundry = document.getElementById('hiddenEmailLaundry').textContent;
+
+            // const idPesanan = document.getElementById('hiddenIdPesanan').value;
+            // const emailLaundry = document.getElementById('hiddenEmailLaundry').value;
+
+            // const idPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            // const emailLaundry = selectedCard.querySelector('#hiddenEmailLaundry').textContent;
+
+            const idPesanan = selectedCard.querySelector('#hiddenIdPesanan').textContent;
+            const emailLaundry = selectedCard.querySelector('#hiddenEmailLaundry').textContent;
+
+            const formData = new FormData();
+            formData.append('currentDate', currentDate);
+            formData.append('currentTime', currentTime);
+
+            fetch(`https://laundrylab.pocari.id/editDiproses/${idPesanan}/${emailLaundry}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Reload the current page
+                        window.location.reload();
+
+                        // Trigger the other page reload via the hidden iframe
+                        hiddenIframe.src = '/petugas/beranda';
+                    } else {
+                        console.error('Failed to confirm pesanan');
+                    }
+                })
+                .catch(error => console.error('Error confirming pesanan:', error));
+
+        }
+
+        // filter state bar
+        document.querySelectorAll('.status-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const status = this.getAttribute('data-status');
+                document.querySelectorAll('.order-card').forEach(card => {
+                    if (status === 'all' || card.getAttribute('data-status') === status) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                document.querySelectorAll('.status-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Add this script to fetch and populate the dropdown
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusCounts = {
+                'all': 0,
+                'Menunggu Dikonfirmasi': 0,
+                'Menunggu Dijemput': 0,
+                'Sedang Dijemput': 0,
+                'Diproses': 0,
+                'Perlu diantar': 0,
+                'Sedang Diantar': 0,
+                'Selesai': 0
+            };
+
+            document.querySelectorAll('.order-card').forEach(card => {
+                const status = card.getAttribute('data-status');
+                statusCounts[status]++;
+                statusCounts['all']++;
+            });
+
+            document.querySelectorAll('.status-link').forEach(link => {
+                const status = link.getAttribute('data-status');
+                link.textContent += ` (${statusCounts[status]})`;
+            });
+
+            // ini dropdown petugas
+            const hiddenEmailLaundry = document.getElementById('hiddenEmailLaundry').textContent;
+            const petugasDropdown = document.getElementById('petugasDropdown');
+
+            if (petugasDropdown) {
+                fetch(`https://laundrylab.pocari.id/getPetugas/${hiddenEmailLaundry}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.users.length > 0) {
+                            data.users.forEach(user => {
+                                const option = document.createElement('option');
+                                option.text = user.nama_petugas; // Assuming 'name' is the property that holds the petugas name
+                                option.value = user.email_petugas; // Assuming 'id' is the property that uniquely identifies the petugas
+                                petugasDropdown.add(option);
+                            });
+                        } else {
+                            console.error('No petugas found');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching petugas:', error));
+            } else {
+                // console.error('Belum ada pesanan yang perlu di set petugas');
+            }
+
+        });
+    </script>
+</body>
+
+</html>

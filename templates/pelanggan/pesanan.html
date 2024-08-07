@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            margin: 0;
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            margin-bottom: 0px;
+            font-weight: 500;
+        }
+
+        .status-bar {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-evenly;
+            /* Updated to spread items evenly */
+        }
+
+        .status-bar a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #1A535C;
+            text-decoration: none;
+            font-weight: normal;
+            /* Ensure normal font weight by default */
+        }
+
+        .status-bar a.active {
+            border-bottom: 2px solid #1A535C;
+            font-weight: bold;
+            /* Only the active link is bold */
+        }
+
+        .order-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .order-content {
+            display: flex;
+            flex-grow: 1;
+            align-items: center;
+        }
+
+        .order-details,
+        .order-dates {
+            margin-right: 20px;
+        }
+
+        .order-details h5 {
+                display: block;
+                /* Ensure the username is on its own row */
+                width: auto;
+                /* Allow the username to be longer than the container */
+                white-space: nowrap;
+                /* Prevent text from wrapping */
+                overflow: hidden;
+                /* Hide overflow text */
+                text-overflow: ellipsis;
+                /* Add ellipsis for overflow text */
+            }
+
+        .order-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .order-status-button {
+            max-width: 150px;
+            /* Adjust this value as needed */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .order-detail-link {
+            color: #1A535C;
+            font-size: 24px;
+        }
+
+        .order-status {
+            color: #75DBCD;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 5px 20px;
+            font-size: 14px;
+            background-color: #75DBCD;
+            color: #1A535C;
+            border-radius: 10px;
+            border: none;
+            width: 100px;
+            min-width: 150px;
+            /* Adjusted width */
+        }
+
+        .order-card h5 {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .order-card p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .order-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-actions {
+                width: 100%;
+                justify-content: center;
+                /* Center the actions horizontally */
+                margin-top: 10px;
+            }
+
+            .order-status-button {
+                margin-right: 0;
+                /* Remove margin between status/button and arrow */
+                align-items: center;
+                /* Center align the status and button */
+                width: 500px;
+                /* Set width to 500px */
+                justify-content: center;
+                /* Center the button horizontally */
+                max-width: 100%;
+            }
+
+            .order-detail-link {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                /* Center vertically */
+                transform: translateY(-50%);
+                /* Adjust to exactly center */
+            }
+
+            .instruction-text {
+                width: 100%;
+                /* Ensures it fits the card width */
+                box-sizing: border-box;
+                /* Includes padding and border in the element's total width */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-group .col-md-4 {
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        }
+
+        /* Style for all browsers */
+        .status-bar::-webkit-scrollbar {
+            width: 10px;
+            /* width of the entire scrollbar */
+        }
+
+        .status-bar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            /* color of the tracking area */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb {
+            background-color: #888;
+            /* color of the scroll thumb */
+            border-radius: 10px;
+            /* roundness of the scroll thumb */
+            border: 2px solid #f1f1f1;
+            /* creates padding around scroll thumb */
+        }
+
+        .status-bar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            /* color of the scroll thumb when hovered */
+        }
+
+        /* For browsers that support it */
+        .status-bar {
+            scrollbar-width: thin;
+            /* "auto" or "thin" */
+            scrollbar-color: #888 #f1f1f1;
+            /* thumb and track color */
+        }
+
+        /* Additional custom styles */
+        .modal-content {
+            border-radius: 20px;
+            /* Rounded corners for the modal */
+        }
+
+        .modal-title {
+            font-weight: bold;
+            /* Ensures the text is bold */
+        }
+
+        .form-control {
+            border-radius: 10px;
+            font-size: 14px;
+            /* Rounded corners for input boxes */
+        }
+
+        .no-wrap-button {
+            display: block;
+            /* Makes the button a block element */
+            margin: 0 auto;
+            /* Centers the button horizontally */
+            white-space: nowrap;
+            /* Prevents the text inside the button from wrapping */
+            width: auto;
+            /* Adjusts the width to fit the content */
+            padding: 5px 20px;
+            /* Adds padding on the left and right for more space */
+        }
+
+        .center-button {
+            display: block;
+            /* Makes the button a block element */
+            margin: 0 auto;
+            /* Centers the button horizontally */
+        }
+
+        .instruction-text {
+            font-size: 14px;
+            color: #1A535C;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+
+        .jemput-button {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .modal-body {
+            font-size: 14px;
+            /* Sets the font size for all text within modal-body */
+        }
+
+        .input-group-text {
+            font-size: 14px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            /* Makes the text of all labels in form-group bold */
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                margin: 5px;
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logoteks.png" alt="LaundryLab Logo">
+        </a>
+    </nav> -->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logoteks.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h2 class="text-center">Daftar Pesanan</h2>
+        <div class="status-bar">
+            <a href="#" class="status-link active" data-status="all">Semua </a>
+            <a href="#" class="status-link" data-status="Menunggu Dikonfirmasi">Menunggu dikonfirmasi</a>
+            <a href="#" class="status-link" data-status="Menunggu Dijemput">Menunggu dijemput</a>
+            <a href="#" class="status-link" data-status="Sedang Dijemput">Sedang dijemput</a>
+            <a href="#" class="status-link" data-status="Diproses">Diproses</a>
+            <a href="#" class="status-link" data-status="Perlu diantar">Perlu diantar</a>
+            <a href="#" class="status-link" data-status="Sedang Diantar">Sedang diantar</a>
+            <a href="#" class="status-link" data-status="Selesai">Selesai</a>
+        </div>
+
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[0].status == "menunggu_konfirmasi" and pesanan.statusPesanan[0].active == "true" %}
+        <div class="order-card" data-status="Menunggu Dikonfirmasi">
+            <div class="order-content">
+                <div class="order-details">
+                    <div id="hiddenEmailLaundry" style="display: none;">{{pesanan.emailLaundry}}</div>
+
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Pemesanan </p>
+                    <p>{{ pesanan.statusPesanan[0].tanggal }} | {{ pesanan.statusPesanan[0].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[0].status }} </p> -->
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Menunggu Dikonfirmasi</span>
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[1].status == "menunggu_dijemput" and pesanan.statusPesanan[1].active == "true" %}
+        <div class="order-card" data-status="Menunggu Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Dikonfirmasi</p>
+                    <p> {{ pesanan.statusPesanan[1].tanggal }} | {{ pesanan.statusPesanan[1].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[1].status }} </p> -->
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Menunggu Dijemput</span>
+
+                </div>
+                <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[2].status == "sedang_dijemput" and pesanan.statusPesanan[2].active == "true" %}
+        <div class="order-card" data-status="Sedang Dijemput">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Penjemputan </p>
+                    <p>{{ pesanan.statusPesanan[2].tanggal }} | {{ pesanan.statusPesanan[2].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[2].status }} </p> -->
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Dijemput</span>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#arrivalModal">Tiba di lokasi</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[3].status == "diproses" and pesanan.statusPesanan[3].active == "true" %}
+        <div class="order-card" data-status="Diproses">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Diproses </p>
+                    <p>{{ pesanan.statusPesanan[3].tanggal }} | {{ pesanan.statusPesanan[3].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[3].status }} </p> -->
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+                    <p> data jenis cucian juga</p>
+                    <p> data total harga </p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Diproses</span>
+                    <!-- <div class="instruction-text">Menunggu jadwal pengantaran dari admin</div> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[4].status == "perlu_diantar" and pesanan.statusPesanan[4].active == "true" %}
+        <div class="order-card" data-status="Perlu diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai Diproses </p>
+                    <p>{{ pesanan.statusPesanan[4].tanggal }} | {{ pesanan.statusPesanan[4].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Perlu diantar</span>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#addressModal"
+                        data-purpose="antar">Antar</button>
+                    <button class="btn">Antar</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[5].status == "sedang_diantar" and pesanan.statusPesanan[5].active == "true" %}
+        <div class="order-card" data-status="Sedang Diantar">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Antar</p>
+                    <p> {{ pesanan.statusPesanan[5].tanggal }} | {{ pesanan.statusPesanan[5].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[5].status }} </p> -->
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Sedang Diantar</span>
+                    <!-- <button class="btn">Selesai</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        {% for pesanan in pesanan %}
+        {% if pesanan.statusPesanan[6].status == "selesai" and pesanan.statusPesanan[6].active == "true" %}
+        <div class="order-card" data-status="Selesai">
+            <div class="order-content">
+                <div class="order-details">
+                    <h5>{% for admin in admin_info %}
+                        {% if admin.email == pesanan.emailLaundry %}
+                        {{ admin.nama }}
+                        {% endif %}
+                        {% endfor %}</h5>
+                    <p>Waktu Selesai</p>
+                    <p> {{ pesanan.statusPesanan[6].tanggal }} | {{ pesanan.statusPesanan[6].waktu }}</p>
+
+                </div>
+                <div class="order-dates">
+                    <!-- <p>{{ pesanan.statusPesanan[6].status }} </p> -->
+                    <p>Petugas :
+                        {% for petugas in petugas_info %}
+                        {% if petugas.email == pesanan.emailPetugas %}
+                        {{ petugas.nama }}
+                        {% endif %}
+                        {% endfor %}</p>
+                    <p> data jenis cucian juga</p>
+                    <p>harga</p>
+
+                </div>
+            </div>
+            <div class="order-actions">
+                <div class="order-status-button">
+                    <span class="order-status">Selesai</span>
+                    <!-- <button class="btn" data-toggle="modal" data-target="#addressModal">Selesai</button> -->
+                </div>
+                <!-- <a href="/petugas/detailpesanan" class="order-detail-link">
+                    <i class="bi bi-chevron-right"></i>
+                </a> -->
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+    </div>
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 LaundryLab. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="arrivalModal" tabindex="-1" aria-labelledby="arrivalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="arrivalModalLabel">Konfirmasi Pesanan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="arrivalForm">
+                        <div id="categoryFields">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label for="category1">Kategori</label>
+                                    <select class="form-control" id="category1">
+                                        <option>Pilih Kategori</option>
+                                        <!-- Add categories here -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="weight1">Berat</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="weight1">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">kg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="totalPieces1">Total Potongan</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="totalPieces1">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">pc</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-link no-wrap-button"
+                                onclick="addCategoryField()">Tambah Kategori</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="catatan">Catatan</label>
+                            <input type="text" class="form-control" id="catatan" placeholder="Masukkan catatan">
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentInstructions">Instruksi Pembayaran:</label>
+                            <p id="paymentInstructions">[Dari Database]</p>
+                            <!-- <p>Instruksi Pembayaran: <span id="paymentInstructions">[Dari Database]</span></p> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentMethod">Metode Pembayaran</label>
+                            <select class="form-control" id="paymentMethod">
+                                <option>Pilih Metode Pembayaran</option>
+                                <!-- Add payment methods here -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary center-button">Proses</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    </div>
+
+    <script>
+        function addCategoryField() {
+            var count = document.querySelectorAll('#categoryFields .form-group').length + 1;
+            var html = `
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="category${count}">Kategori</label>
+                    <select class="form-control" id="category${count}">
+                        <option>Pilih Kategori</option>
+                        <!-- Add categories here -->
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="weight${count}">Berat</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="weight${count}">
+                        <div class="input-group-append">
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="totalPieces${count}">Total Potongan</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="totalPieces${count}">
+                        <div class="input-group-append">
+                            <span class="input-group-text">pc</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+            document.getElementById('categoryFields').insertAdjacentHTML('beforeend', html);
+        }
+
+ 
+
+        // filter status navbar
+        document.querySelectorAll('.status-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const status = this.getAttribute('data-status');
+                document.querySelectorAll('.order-card').forEach(card => {
+                    if (status === 'all' || card.getAttribute('data-status') === status) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                document.querySelectorAll('.status-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+
+
+        // tampilin jumlah pesanan
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusCounts = {
+                'all': 0,
+                'Menunggu Dikonfirmasi': 0,
+                'Menunggu Dijemput': 0,
+                'Sedang Dijemput': 0,
+                'Diproses': 0,
+                'Perlu diantar': 0,
+                'Sedang Diantar': 0,
+                'Selesai': 0
+            };
+
+            document.querySelectorAll('.order-card').forEach(card => {
+                const status = card.getAttribute('data-status');
+                statusCounts[status]++;
+                statusCounts['all']++;
+            });
+
+            document.querySelectorAll('.status-link').forEach(link => {
+                const status = link.getAttribute('data-status');
+                link.textContent += ` (${statusCounts[status]})`;
+            });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- mapbox -->
+    <!-- <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script> -->
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+        type="text/css">
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat';
+            color: #1A535C;
+        }
+
+        html,
+        body {
+            height: auto;
+            /* Changed from '100%' to 'auto' */
+            margin: 0;
+            /* Remove default margin */
+        }
+
+        .container {
+            min-height: calc(100vh - 60px);
+            /* Adjust the 60px based on the actual height of your footer */
+            /* This ensures that the container takes up at least the remaining height not covered by the footer */
+        }
+
+        .navbar {
+            padding: 0px;
+        }
+
+        .navbar-brand {
+            padding: 0px;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            margin: 25px;
+        }
+
+        .navbar-toggler {
+            margin-right: 25px;
+        }
+
+        .navbar-collapse {
+            margin-left: 50px;
+            margin-right: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1A535C;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        h2 a {
+            color: #1A535C;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        .navbar-nav {
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #1A535C;
+            /* font-weight: 600; */
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: #1A535C;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            /* Changed from 'fixed' to 'relative' */
+            margin-top: auto;
+            /* Push the footer to the bottom */
+        }
+
+        .footer p {
+            color: white;
+            font-family: 'Montserrat';
+            /* margin-top: 10px; */
+            margin-bottom: 0px;
+            /* font-size: 24px; */
+            font-weight: 500;
+        }
+
+        @media (max-width: 500px) {
+            .navbar-brand img {
+                height: 40px;
+                /* Smaller logo for smaller screens */
+                margin: 10px;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 16px;
+                /* Smaller font size for nav links */
+            }
+
+            h2 {
+                font-size: 20px;
+                /* Smaller headings */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar-brand img {
+                height: 30px;
+                /* Smaller logo for smaller screens */
+                margin: 5px;
+                /* Adjust margin to keep layout tight */
+            }
+
+            .navbar-toggler {
+                margin-right: 5px;
+                /* Reduce margin to save space */
+                font-size: 15px;
+            }
+
+            .navbar {
+                padding: 10px;
+                /* Reduce padding to save space */
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 14px;
+                /* Optionally reduce font size for nav links */
+            }
+        }
+
+        h5 a {
+            /* color: #1A535C; */
+            color: #75DBCD;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+
+
+        .card {
+            border-radius: 20px;
+            margin-bottom: 15px;
+            /* box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1); */
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px 30px 20px 30px;
+        }
+
+        .no-border {
+            border: none !important;
+            background-color: transparent !important;
+            outline: none;
+            /* Removes the outline when the button is focused */
+        }
+
+        .no-border:hover {
+            color: #75DBCD;
+            /* Change to your desired hover color */
+            text-decoration: underline;
+            /* Adds underline on hover */
+        }
+
+        .no-border:focus {
+            border: none !important;
+            /* Ensures no border appears when the button is clicked */
+            outline: none;
+            /* Additional reinforcement to remove focus outline */
+        }
+
+        .text-center p {
+            margin-bottom: 0;
+            /* Remove bottom margin from p tags in this div */
+        }
+
+        .dropdown-toggle::after {
+            margin-left: 0;
+        }
+
+        .card-link {
+            color: #75DBCD;
+            /* Change the color */
+            display: block;
+            font-size: 14px;
+            /* Make the link a block element to allow centering */
+            text-align: center;
+            /* Center the text horizontally */
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+            /* Adds underline on hover */
+        }
+
+        .divider {
+            border-top: 1px solid #1A535C;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 14px;
+            /* Set the font size for card text */
+        }
+
+        .link-color {
+            color: #75DBCD;
+            /* Set the color for links with class 'link-color' */
+        }
+
+        .card-body .d-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align items to the top */
+        }
+
+        .ubah-link {
+            color: #75DBCD;
+            /* Change the color */
+            text-decoration: none;
+            /* Optional: removes underline */
+        }
+
+        @media (max-width: 768px) {
+            .card-title {
+                flex-grow: 1;
+                /* Allows the title to expand and fill the space */
+            }
+
+            .ubah-link {
+                flex-shrink: 0;
+                /* Prevents the link from shrinking */
+            }
+        }
+
+        .row {
+            display: flex;
+            align-items: start;
+            /* Aligns the card to the top */
+        }
+
+        .no-padding-right {
+            padding-right: 0 !important;
+        }
+
+        .ubah-link {
+            color: #75DBCD;
+            /* Change the color */
+            float: right;
+            /* Align the link to the right */
+
+        }
+
+        .modal-content {
+            border-radius: 20px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        /* .modal-body .form-group label{
+            align-items: left;
+        } */
+
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            padding: 0;
+            margin: 0;
+        }
+
+        /* For other browsers like Firefox, you might need additional CSS */
+        /* input[type="time"] {
+            appearance: none;
+            -moz-appearance: textfield;
+        } */
+
+        @media (max-width: 575px) {
+            .form-group .col-4 {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .custom-control-label {
+                margin-left: 0.5rem;
+                font-weight: 100;
+                /* Adjust label spacing for smaller screens */
+            }
+
+            .col-form-label {
+                align-items: center;
+            }
+        }
+
+        .btn-custom-secondary {
+            background-color: #6c757d;
+            /* Bootstrap secondary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .btn-custom-primary {
+            background-color: #007bff;
+            /* Bootstrap primary button color */
+            color: #fff;
+            /* White text */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+        .custom-save-button {
+            background-color: #75DBCD;
+            color: #1A535C;
+            font-weight: bold;
+            width: 100px;
+            /* Set the width of the button */
+            border: none;
+            border-radius: 10px;
+            /* Green background */
+            /* border-color: #4CAF50;  */
+            /* Green border */
+        }
+
+        .custom-border {
+            /* border: 2px solid #333;  */
+            border-radius: 10px;
+            /* font-weight: bold; */
+            width: 100px;
+            /* Set the width of the button */
+            /* Example: solid border with a dark color */
+        }
+
+        .modal-body {
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            justify-content: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* This will vertically center the items */
+        }
+
+        .payment-details {
+            flex-grow: 1;
+            /* Allows the details section to take up the available space */
+        }
+
+        .payment-actions {
+            display: flex;
+            flex-direction: column;
+            /* Stack the links vertically */
+            align-items: flex-end;
+            /* Align the links to the right */
+            justify-content: center;
+            /* Center the links vertically */
+        }
+
+        .ubah-link,
+        .hapus-link {
+            color: #75DBCD;
+            /* Set the desired color, assuming #75DBCD is the color used for 'Ubah' */
+            text-decoration: none;
+            /* Optional: removes underline */
+        }
+
+        .form-group label {
+            text-align: left;
+            /* Aligns text to the left */
+            display: block;
+            /* Makes the label a block element, allowing it to take the full width */
+        }
+
+        .modal-header .modal-title strong {
+            font-weight: bold !important;
+            /* Ensure the text is bold */
+        }
+
+        .fa-star {
+            color: #FFD700;
+            /* Yellow color for the stars */
+        }
+
+        .checked {
+            color: #FFD700;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../static/logoteks.png" alt="LaundryLab Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/pesanan">Pesanan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="/pelanggan/profil">Profil</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <!-- Profile -->
+                <!-- <img src="../../static/profil.png" alt="Profile Image" class="rounded-circle" width="100"> -->
+                <img src="{{ users.profilPict if users.profilPict else '../../static/profil.png' }}" alt="Profile Image"
+                    class="rounded-circle" width="100">
+                <!-- <h3 class="mt-3" id="laundryName"></h3>
+                <p id="laundryEmail"></p>
+                <p id="laundryPhone"></p> -->
+                <h3 class="mt-3" id="userName">{{ users.nama }}</h3>
+                <p id="userEmail">{{ users.email }}</p>
+                <p id="userPhone">{{ users.notelp }}</p>
+                <p class="mt-2"><button class="link-color no-border" data-toggle="modal"
+                        data-target="#editProfileModal">Ubah</button></p>
+
+
+            </div>
+        </div>
+        <div class="row mt-4">
+
+            <!-- Alamat -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-flex-start">
+                            <div>
+                                <h5 class="card-title">Alamat</h5>
+                            </div>
+                            <div>
+                                <a href="#" id="editAddAddressLink" class="ubah-link" data-toggle="modal"
+                                    data-target="#addAddressModal" onclick="openModalForAddAddress(this)">
+                                    Tambah
+                                </a>
+                            </div>
+                        </div>
+
+                        {% for addr in address %}
+                        <!-- <p class="card-text" id="addressData">No address data available.</p> -->
+                        <p class="card-text" id="addressData-{{ addr.idAlamat }}">
+
+                            {{ addr.alamat }}, {{ addr.kelurahan }}, {{ addr.kecamatan }}, Pekanbaru, Riau, {{
+                            addr.kodePos }} <br> <br>
+                            Catatan: {{ addr.detailAlamat if addr.detailAlamat else '-' }} <br>
+                        </p>
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="#" class="card-link" id="editAddressLink" data-toggle="modal"
+                                data-target="#editAddressModal" onclick="openModalForEditAddress(this)"
+                                data-id="{{ addr.idAlamat }}">Ubah</a>
+                            <a href="#" class="card-link" id="editAddressLink" data-toggle="modal"
+                                data-target="#editAddressModal" onclick="deleteAlamat(this)"
+                                data-id="{{ addr.idAlamat }}">Hapus</a>
+                            <!-- <a href="#" class="card-link" id="viewMapLink" data-toggle="modal"
+                                data-target="#viewMapModal" data-id="{{ addr.idAlamat }}">Lihat Peta</a> -->
+                            <a href="#" class="card-link" onclick="viewMap(this)" data-toggle="modal"
+                                data-target="#viewMapModal" data-id="{{ addr.idAlamat }}">Lihat Peta</a>
+                        </div>
+                        <hr>
+                        {% endfor %}
+
+
+
+                        {% if address|length == 0 %}
+                        <p class="card-text">Belum memiliki data alamat</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Penilaian -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-flex-start">
+                            <h5 class="card-title">Penilaian Saya</h5>
+                            <!-- <a href="#" class="ubah-link" data-toggle="modal" data-target="#addPaymentModal">Tambah</a> -->
+                        </div>
+                        <!-- <div class="card-body"> -->
+                        {% for rating in ratings %}
+                        <div class="card-text payment-method" id="">
+
+                            <div class="payment-details" id="">
+                                <!-- Display the payment method name -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <b>{{ rating.emailLaundry }}</b> {{ rating.tanggal }}
+                                        <b>{{ rating.namaLaundry }}</b><br>
+
+                                    </div>
+                                    <div>
+                                        {% for i in range(rating.rate |int) %}
+                                        <span class="fa fa-star checked"></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {{ rating.ulasan }}
+                            </div>
+
+                        </div>
+                        <!-- <hr class="divider"> -->
+                        <hr>
+                        {% endfor %}
+
+                        {% if ratings|length == 0 %}
+                        <p class="card-text">Belum pernah memberi penilaian</p>
+                        {% endif %}
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Logout -->
+        <div class="row mt-4">
+            <div class="col text-right">
+                <a href="/pelanggan/logout" class="btn btn-outline-danger">Keluar</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 LaundryLab. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal for Alamat -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAddressModalLabel"><strong>Tambah Alamat</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addressForm">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div id="map" style="width: 100%; height: 200px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressInput"><strong>Alamat</strong></label>
+                            <input type="text" class="form-control" id="addressInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kelurahanInput"><strong>Kelurahan</strong></label>
+                            <input type="text" class="form-control" id="kelurahanInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kecamatanInput"><strong>Kecamatan</strong></label>
+                            <input type="text" class="form-control" id="kecamatanInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kodeposInput"><strong>Kodepos</strong></label>
+                            <input type="text" class="form-control" id="kodeposInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="detailAlamatInput"><strong>Detail Alamat</strong></label>
+                            <textarea class="form-control" id="detailAlamatInput" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <small id="formAlert" class="form-text text-danger" style="display: none;">
+                                Semua data wajib diisi</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-custom-secondary custom-border"
+                            data-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-custom-primary custom-save-button"
+                            onclick="validateAndSaveAddress()">Simpan</button>
+                        <!-- <button type="submit" class="btn btn-custom-primary custom-save-button">Simpan</button> -->
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing Map -->
+    <div class="modal fade" id="viewMapModal" tabindex="-1" role="dialog" aria-labelledby="viewMapModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewMapModalLabel"><strong>Lihat Peta</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="mapView" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Editing Profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel"><strong>Ubah Profil</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="userNameEdit"><strong>Nama </strong></label>
+                            <input type="text" class="form-control" id="userNameEdit" value="{{users.nama}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmailEdit"><strong>Email</strong></label>
+                            <input type="email" class="form-control" id="userEmailEdit" value="{{users.email}}" required
+                                readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPhoneEdit"><strong>Nomor Telepon</strong></label>
+                            <input type="tel" class="form-control" id="userPhoneEdit" value="{{users.notelp}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPictureEdit"><strong>Foto Profil</strong></label>
+                            <input type="file" class="form-control-file" id="userPictureEdit" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom-secondary custom-border"
+                        data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-custom-primary custom-save-button"
+                        onclick="saveProfileChanges()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+        // ALAMAT
+        function openModalForEditAddress(element) {
+            const idAlamat = element.getAttribute('data-id');
+            const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+
+            // Change the modal header
+            // document.getElementById('addAddressModalLabel').innerText = 'Ubah Alamat';
+            const modalLabel = document.getElementById('addAddressModalLabel');
+            modalLabel.innerHTML = '<strong>Ubah Alamat</strong>';
+
+            // Fetch the existing address data
+            fetch(`https://laundrylab.pocari.id//getAlamatId/${idAlamat}/${userEmail}`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const addressData = data.alamatUser;
+                        // Populate the input fields with the existing address data
+                        document.getElementById('addressInput').value = addressData.alamat || '';
+                        document.getElementById('kelurahanInput').value = addressData.kelurahan || '';
+                        document.getElementById('kecamatanInput').value = addressData.kecamatan || '';
+                        document.getElementById('kodeposInput').value = addressData.kodePos || '';
+                        document.getElementById('detailAlamatInput').value = addressData.detailAlamat || '';
+
+                        // Set the map center and marker position
+                        const latitude = addressData.latitudeUser;
+                        const longitude = addressData.longitudeUser;
+                        if (latitude && longitude) {
+                            map.setCenter([longitude, latitude]);
+                            // marker.setLngLat([longitude, latitude]).addTo(map);
+                            mainMarker.setLngLat([longitude, latitude]).addTo(map);
+                        }
+                    } else {
+                        console.error('Failed to fetch address data:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error fetching address data:', error));
+
+            // Show the modal
+            $('#addAddressModal').modal('show');
+        }
+
+        function openModalForAddAddress() {
+            // Logic to open the modal for adding a new address
+            $('#addAddressModal').modal('show');
+        }
+
+        function validateAndSaveAddress() {
+            const address = document.getElementById('addressInput').value.trim();
+            const kelurahan = document.getElementById('kelurahanInput').value.trim();
+            const kecamatan = document.getElementById('kecamatanInput').value.trim();
+            const kodepos = document.getElementById('kodeposInput').value.trim();
+            const detailAlamat = document.getElementById('detailAlamatInput').value.trim();
+            const alertElement = document.getElementById('formAlert');
+
+            if (!address || !kelurahan || !kecamatan || !kodepos) {
+                alertElement.style.display = 'block';
+            } else {
+                alertElement.style.display = 'none';
+                saveAddressChanges();
+            }
+        }
+
+        async function fetchLastUserAlamatId() {
+            const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+
+            console.log('ini fetchlastuseralamatid')
+            const response = await fetch(`https://laundrylab.pocari.id/getAlamat/${userEmail}`);
+            const data = await response.json();
+            if (data.success && data.users.length > 0) {
+                const lastId = Math.max(...data.users.map(user => parseInt(user.idAlamat) || 0));
+                return lastId + 1; // Increment the last ID
+            }
+            return 1; // Default to 1 if no users are found
+        }
+
+        async function saveAddressChanges() {
+            const address = document.getElementById('addressInput').value;
+            const kelurahan = document.getElementById('kelurahanInput').value;
+            const kecamatan = document.getElementById('kecamatanInput').value;
+            const kodepos = document.getElementById('kodeposInput').value;
+            const detailAlamat = document.getElementById('detailAlamatInput').value;
+            const markerPosition = getMarkerCoordinates();
+            const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+            const idAlamat = await fetchLastUserAlamatId();
+
+            const formData = new FormData();
+            formData.append('idAlamat', idAlamat);
+            formData.append('emailUser', userEmail);
+            formData.append('alamat', address);
+            formData.append('detailAlamat', detailAlamat);
+            formData.append('kelurahan', kelurahan);
+            formData.append('kecamatan', kecamatan);
+            formData.append('kodePos', kodepos);
+            formData.append('latitudeUser', markerPosition.latitude);
+            formData.append('longitudeUser', markerPosition.longitude);
+
+
+            fetch(`https://laundrylab.pocari.id/addAlamatUser/${userEmail}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Address saved successfully:', data);
+                        $('#addAddressModal').modal('hide');
+                        location.reload()
+                    } else {
+                        console.error('Failed to save address:', data.error);
+                    }
+                })
+                .catch(error => console.error('Error saving address:', error));
+        }
+
+
+
+        // hapus alamat 
+        function deleteAlamat(element) {
+            const idAlamat = element.getAttribute('data-id');
+            const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+
+            // console.log('ini delete alamat', idAlamat, userEmail)
+            fetch(`https://laundrylab.pocari.id/deleteAlamatUser/${idAlamat}/${userEmail}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('data', data)
+                    location.reload()
+                })
+                .catch(error => console.error('Error deleting address:', error));
+        }
+
+
+
+        // MAP
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmVyZW5mYXNlbGxhcGNyIiwiYSI6ImNsZmdqY3A0cjBuMTMzeHBhbWR4bWU4bWcifQ.qiVGsGvSFknQtRriOutdGA';
+
+        // Initialize the map
+        var map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+            center: [101.42605398075054, 0.5712004937845387], // Starting position [lng, lat]
+            zoom: 12 // Starting zoom level
+        });
+
+        // Add navigation controls to the map
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Add a marker to the map at the center
+        var mainMarker = new mapboxgl.Marker({
+            draggable: true
+        })
+            .setLngLat(map.getCenter()) // Set marker at the center of the map
+            .addTo(map);
+
+        // Update marker position when the map is moved
+        map.on('move', function () {
+            mainMarker.setLngLat(map.getCenter());
+        });
+
+        // Function to get the marker's coordinates
+        function getMarkerCoordinates() {
+            var lngLat = mainMarker.getLngLat();
+            return { longitude: lngLat.lng, latitude: lngLat.lat };
+        }
+
+        //lihat map 
+        let mapView;
+        let modalMarker;
+
+        function initializeMapView(longitude, latitude) {
+            mapView = new mapboxgl.Map({
+                container: 'mapView', // Container ID
+                style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+                center: [longitude, latitude], // Starting position [lng, lat]
+                zoom: 12 // Starting zoom level
+            });
+
+            // Add navigation controls to the map
+            mapView.addControl(new mapboxgl.NavigationControl());
+
+            // Add a marker to the map
+            modalMarker = new mapboxgl.Marker({
+                draggable: false
+            }).setLngLat([longitude, latitude]).addTo(mapView);
+        }
+
+        // const viewMapLink = document.getElementById('viewMapLink');
+        // if (viewMapLink) {
+        //     viewMapLink.addEventListener('click', function (event) {
+        //         event.preventDefault();
+        //         const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+        //         const idAlamat = element.getAttribute('data-id');
+        //         // const url = `https://laundrylab.pocari.id/getAdminEmail/${userEmail}`;
+        //         const url = `https://laundrylab.pocari.id/getAlamatId/${idAlamat}/${userEmail}`;
+
+        //         fetch(url)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 if (data.success) {
+        //                     const addressData = data.admin;
+        //                     const latitude = addressData.latitudeUser;
+        //                     const longitude = addressData.longitudeUser;
+        //                     if (latitude && longitude) {
+        //                         $('#viewMapModal').modal('show');
+        //                         setTimeout(() => initializeMapView(longitude, latitude), 500); // Delay to ensure the modal is fully shown before initializing the map
+        //                     } else {
+        //                         console.error('Coordinates not found in the response');
+        //                         alert('Coordinates not found for this address.');
+        //                     }
+        //                 } else {
+        //                     console.error('Failed to fetch address data:', data.error);
+        //                     alert('Failed to fetch address data.');
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error fetching address data:', error);
+        //                 alert('Error fetching address data.');
+        //             });
+        //     });
+        // } else {
+        //     console.warn('viewMapLink element not found.');
+        // }
+
+
+
+
+        function viewMap(element) {
+            event.preventDefault();
+            const userEmail = sessionStorage.getItem('user_email'); // Ensure you have set this somewhere
+            const idAlamat = element.getAttribute('data-id');
+            const url = `https://laundrylab.pocari.id/getAlamatId/${idAlamat}/${userEmail}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('ini data', data)
+                    if (data.success) {
+
+                        const addressData = data.alamatUser;
+                        const latitude = addressData.latitudeUser;
+                        const longitude = addressData.longitudeUser;
+                        if (latitude && longitude) {
+                            $('#viewMapModal').modal('show');
+                            setTimeout(() => initializeMapView(longitude, latitude), 500); // Delay to ensure the modal is fully shown before initializing the map
+                        } else {
+                            console.error('Coordinates not found in the response');
+                            alert('Coordinates not found for this address.');
+                        }
+                    } else {
+                        console.error('Failed to fetch address data:', data.error);
+                        alert('Failed to fetch address data.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching address data:', error);
+                    alert('Error fetching address data.');
+                });
+        }
+
+
+
+
+
+
+
+        // edit profil 
+        function saveProfileChanges() {
+            const userEmail = sessionStorage.getItem('user_email');
+
+            const formData = new FormData();
+            formData.append('nama', document.getElementById('userNameEdit').value);
+            // formData.append('email', document.getElementById('userEmailEdit').value);
+            formData.append('notelp', document.getElementById('userPhoneEdit').value);
+            formData.append('profilPict', document.getElementById('userPictureEdit').files[0]);
+
+
+            // Log FormData contents, cek data
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+
+            fetch(`https://laundrylab.pocari.id/updateUser/${userEmail}`, {
+                method: 'PUT',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('data', data)
+                    console.log('Profile changes saved');
+                    location.reload()
+                })
+                .catch(error => console.error('Error saving profile changes:', error));
+        }
+
+        //GENERAL 
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set the user_email first
+            sessionStorage.setItem('user_email', '{{ session.get("user_email", "") }}');
+            sessionStorage.setItem('admin_id', '{{ session.get("admin_id", "") }}');
+
+            // Now get the user_email from sessionStorage
+            const userEmail = sessionStorage.getItem('user_email');
+            if (!userEmail) {
+                console.error('User email is not available.');
+                return;
+            }
+
+            // console.log("Logged in Email:", userEmail); // Check what email is being fetched
+
+
+        });
+
+    </script>
+</body>
+
+</html>
